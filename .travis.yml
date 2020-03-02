@@ -5,15 +5,22 @@ node_js:
 cache: npm
 branches:
   only:
-    - master # build master branch only
+    - release # build release branch only
 script:
   - hexo generate # generate static files
+
+# 构建完成后
+#after_script:
+
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GH_TOKEN
   keep-history: true
+  # 因为github.io的Git Pages 的发布分支（Source）只能是master，
+  # 所以这里要将构建目标分支改为master，覆盖默认的 gh-pages
   target_branch: master
   on:
-    branch: master
+    # 只有在release分支的时候才构建
+    branch: release
   local-dir: public
