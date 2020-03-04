@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="其实说起JavaScript中的定时器(Timer)中的 setTimeout() 方法，从事开发的同学想必都不会陌生，觉得这些东西很简单很基础。但是有时候恰恰是基础简单的东西，才越容易被忽略。先看一段代码：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript 定时器是如何工作的">
+<meta property="og:url" content="https://tianxiaohu.online/blog/2020/03/04/How-JavaScript-Timer-Work/index.html">
+<meta property="og:site_name" content="Toy&#39;s Blog">
+<meta property="og:description" content="其实说起JavaScript中的定时器(Timer)中的 setTimeout() 方法，从事开发的同学想必都不会陌生，觉得这些东西很简单很基础。但是有时候恰恰是基础简单的东西，才越容易被忽略。先看一段代码：">
+<meta property="og:image" content="http://n1image.hjfile.cn/mh/2016/12/14/797e315861455afca7ba11e13d9cfa1a.png">
+<meta property="og:image" content="http://n1image.hjfile.cn/mh/2016/12/14/aefcc296c8a4d0b9f0b8fef7ffd59e13.png">
+<meta property="og:image" content="http://n1image.hjfile.cn/mh/2016/12/14/ad890e7e9f1ddde217319a4cce456b8a.png">
+<meta property="og:image" content="http://n1image.hjfile.cn/mh/2016/12/14/69c0a4dcbe95361966a1b3d5aebe3793.png">
+<meta property="og:image" content="http://n1image.hjfile.cn/mh/2016/12/14/6b6ec3ba7b90eb0ad2b1a514d2a6e4d5.png">
+<meta property="og:image" content="http://n1image.hjfile.cn/mh/2016/12/14/4ea0f6faf5bfd032ac7915432e614eb8.png">
+<meta property="og:image" content="http://n1image.hjfile.cn/mh/2016/12/14/a68daa08f4a97c0f28ec4e6d4ca0bc7d.png">
+<meta property="og:image" content="http://n1image.hjfile.cn/mh/2016/12/15/7213bb28fd30caa871d8ef75f425475a.gif">
+<meta property="og:image" content="http://n1image.hjfile.cn/mh/2016/12/15/cebca6ff2376a956c7068066827c6557.png">
+<meta property="og:image" content="http://n1image.hjfile.cn/mh/2016/12/15/ac2f1caa8cf74b0c699567a66dd59e2b.png">
+<meta property="article:published_time" content="2020-03-04T03:37:26.184Z">
+<meta property="article:modified_time" content="2020-03-04T03:37:26.184Z">
+<meta property="article:author" content="Toy">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://n1image.hjfile.cn/mh/2016/12/14/797e315861455afca7ba11e13d9cfa1a.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://tianxiaohu.online/blog/2020/03/04/How-JavaScript-Timer-Work/"/>
+
+
+
+
+
+  <title>javascript 定时器是如何工作的 | Toy's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1fa3c27a2bfe5da369278aaf8874855e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Toy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/blog/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tianxiaohu.online/blog/blog/2020/03/04/How-JavaScript-Timer-Work/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Toy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Toy's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">javascript 定时器是如何工作的</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-04T03:37:26+00:00">
+                2020-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>其实说起JavaScript中的定时器(<em>Timer</em>)中的 <em>setTimeout()</em> 方法，从事开发的同学想必都不会陌生，觉得这些东西很简单很基础。但是有时候恰恰是基础简单的东西，才越容易被忽略。先看一段代码：<br> <a id="more"></a> </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'start'</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">&#125;, <span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'world'</span>);</span><br><span class="line">&#125;, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'end'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>如果一眼看出了结果，那稍微改动一下，这样呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'start'</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">&#125;, <span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'world'</span>);</span><br><span class="line">&#125;, <span class="number">300</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 此处仅代表模拟一个耗时运算，这里假设时间大于1秒，</span></span><br><span class="line"><span class="comment">// 便于理解本文的重点，此处不需要过分探究执行时间</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">10000</span>;i++) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'I am run'</span>);</span><br><span class="line">&#125;, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'end'</span>);</span><br></pre></td></tr></table></figure>
+<p>不通过Console控制台运行，能第一时间知道打印的结果么？如果有点不确定，骚年，继续往下看吧。这段代码仔细研究下其实还是蛮有（keng）趣（die）的。个人认为，这也是Javascript语言相比其他编程语言不严谨的地方。当然，为了能够更好的驾驭Javascript这门神奇的语言，这些东西是必须掌握的。</p>
+<h2 id="JS代码是怎么执行的"><a href="#JS代码是怎么执行的" class="headerlink" title="JS代码是怎么执行的"></a>JS代码是怎么执行的</h2><p>那首先应该从JS代码执行说起，JS引擎会在内存中分配堆区（heap）和栈区（stack），那么JS又是以怎样的顺序执行的呢？先看一段很简单的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">3</span>;</span><br><span class="line">    B(<span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> newNum = num * num;</span><br><span class="line">    <span class="built_in">console</span>.log(newNum);</span><br><span class="line">&#125;</span><br><span class="line">A();</span><br></pre></td></tr></table></figure>
+
+<p>当代码运行的时候，为便于理解我们假设栈底有一个main()方法（类似于Java中的入口Main方法）作为运行的开始。</p>
+<p>1.代码开始执行</p>
+<p><img src="http://n1image.hjfile.cn/mh/2016/12/14/797e315861455afca7ba11e13d9cfa1a.png" alt="第1步"></p>
+<p>2.运行A()方法，将A()入栈，此时A上下文中存在变量 a = 3</p>
+<p><img src="http://n1image.hjfile.cn/mh/2016/12/14/aefcc296c8a4d0b9f0b8fef7ffd59e13.png" alt="第2步"></p>
+<p>3.调用B()方法，将B()入栈，此时B上下文中存在变量 num = 3，newNum = 9</p>
+<p><img src="http://n1image.hjfile.cn/mh/2016/12/14/ad890e7e9f1ddde217319a4cce456b8a.png" alt="第3步"></p>
+<p>4.调用B()方法中的console.log()，入栈，控制台打印 9</p>
+<p><img src="http://n1image.hjfile.cn/mh/2016/12/14/69c0a4dcbe95361966a1b3d5aebe3793.png" alt="第4步"></p>
+<p>5.继续运行，依次将console.log()，和B()方法出栈</p>
+<p><img src="http://n1image.hjfile.cn/mh/2016/12/14/6b6ec3ba7b90eb0ad2b1a514d2a6e4d5.png" alt="第5步"></p>
+<p>6.A()方法运行完毕出栈</p>
+<p><img src="http://n1image.hjfile.cn/mh/2016/12/14/4ea0f6faf5bfd032ac7915432e614eb8.png" alt="第6步"></p>
+<p>7.代码运行完成，清空栈</p>
+<p><img src="http://n1image.hjfile.cn/mh/2016/12/14/a68daa08f4a97c0f28ec4e6d4ca0bc7d.png" alt="第7步"></p>
+<p>这就是一段简单的代码在堆栈中的执行情况，看明白了就能开始介绍Javascript引擎的另外一个机制。</p>
+<h2 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h2><p>众所周知，<strong>Javascript引擎</strong>（以下简称<em>JS引擎</em>）是单线程的，在某一个特定的时间内只能执行一个任务，并阻塞其他任务的执行，也就是说这些任务是串行的。这样的话，用户不得不等待一个耗时的操作完成之后才能进行后面的操作，这显然是不能容忍的，但是实际开发中我们却可以使用异步代码来解决。举个特殊栗子——计算机CPU，我们可以听着音乐的同时愉快的码代码，看起来播放音乐和编辑代码是并行的，其实不然。在计算机中并没有绝对意义上的并行，从微观上来看，单核心的CPU其实在同一个时间片内只能处理单一的任务，一旦某个进程的时间片结束，CPU会马上调度另一个进程执行，先前的进程则处于挂起状态等待获得时间片后继续执行，如此反复，宏观上看起来这些任务就是并行处理的。</p>
+<p>回到我们熟悉的JS引擎，为实现这样的特性，这里就需要引申出一个重要的东西，<em>Event Loop</em>（事件循环）。</p>
+<p>当异步方法比如这里的<strong>setTimeout()</strong>，或者<strong>ajax请求</strong>、<strong>DOM事件执行</strong>的时候，会交由浏览器内核的其他模块去管理。当异步的方法满足触发条件后，该模块就会将方法推入到一个任务队列（<em>task queue</em>）中，当主线程代码执行完毕处于空闲状态的时候，就会去检查任务队列，将队列中第一个任务入栈执行，完毕后继续检查任务队列，如此循环。前提条件是主线程处于空闲状态，这就是事件循环的模型。</p>
+<h2 id="SetTimeout"><a href="#SetTimeout" class="headerlink" title="SetTimeout();"></a>SetTimeout();</h2><p>明白了上面的东西，那理解setTimeout的机制就容易得多了。回到开篇的第一段代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'start'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Timer1</span></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">&#125;, <span class="number">200</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Timer2</span></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'world'</span>);</span><br><span class="line">&#125;, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'end'</span>);</span><br></pre></td></tr></table></figure>
+<p>为了让大家更直观的看到执行的顺序，做了一个GIF</p>
+<p><img src="http://n1image.hjfile.cn/mh/2016/12/15/7213bb28fd30caa871d8ef75f425475a.gif" alt="执行步骤gif"></p>
+<p>图上可以看出，首先依然是main()开始，首先第一个console.log()入栈执行，执行完毕控制台打印’start’后出栈，紧接着执行到setTimeout定时器，此时JS引擎会将定时器交给浏览器的另一个模块去管理（为方便理解这里把它叫做Timer模块），然后主线程继续向下执行，紧接着将第二个定时器也交给Timer模块，然后执行到第二个console.log()，控制台打印’end’，执行完毕后清空执行栈。但是并没有结束，在主线程执行的同时，Timer模块会检查其中的异步代码，一旦满足触发条件，就会将它添加到任务队列中。Timer2延迟100ms，所以会早于Timer1被添加到队列排头。而主线程此时处于空闲状态，所以会检查任务队列是否有待执行的任务。此时会将Timer2回调中的console.log()执行，控制台打印’world’，然后执行栈空闲后继续检查任务队列，将Timer1的代码压入执行栈中执行，控制台打印’hello’，清空执行栈，此时任务队列为空，执行结束。</p>
+<p>控制台依次打印出：</p>
+<p><img src="http://n1image.hjfile.cn/mh/2016/12/15/cebca6ff2376a956c7068066827c6557.png" alt="控制台打印"></p>
+<p>再来看开篇第二段改版代码，就比较好玩了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'start'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Timer1</span></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">&#125;, <span class="number">200</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Timer2</span></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'world'</span>);</span><br><span class="line">&#125;, <span class="number">300</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 此处仅代表模拟一个耗时运算，这里假设时间大于1秒，</span></span><br><span class="line"><span class="comment">// 便于理解本文的重点，此处不需要过分探究执行时间</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">10000</span>;i++) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Timer3</span></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'I am run'</span>);</span><br><span class="line">&#125;, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'end'</span>);</span><br></pre></td></tr></table></figure>
+<p>和第一段不同的是，在最后一个定时器前加了一段for循环，（注：此处仅用来模拟一段比较耗时的运算，假设时间大于1秒，代码真正执行时间不必深究）。chrome控制台运行结果是：</p>
+<p><img src="http://n1image.hjfile.cn/mh/2016/12/15/ac2f1caa8cf74b0c699567a66dd59e2b.png" alt="控制台打印"></p>
+<p>前面的那张Gif图看懂了以后，其实从’world’之前的打印应该都是没有问题的。但是奇怪的地方就是，Timer3仅仅延迟了100ms，反而在另外两个Timer之后执行了。其实这里原因很简单，因为在Timer1和Timer2加入到执行队列中后，主线程依然还在执行for循环中的代码，处于阻塞状态。队列中的Timer1和Timer2并不会得以执行。当for循环结束，这时才将Timer3交由Timer模块去管理，继续执行后续代码打印’end’，清空执行栈。虽然在这里Timer3的延迟时间最短，但是加入任务队列后还是会排在Timer1和Timer2的后面，所以此时按顺序执行任务队列中的代码，依次打印’hello’、’world’、’I am run’。同时需要注意的是，这种情况下的三个定时器延迟执行的时间已经远远超过了指定的时间。</p>
+<p>还有一点值得特别注意的是，有些同学可能会写过这样的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>其实JS引擎在处理这段代码的时候，并不是真正的延迟0ms执行。不同的浏览器会默认有一个最小的延迟时间，低于这个时间间隔会按照默认最小的时间间隔来处理。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们发现不论事件循环（_Event Loop_）模型还是setTimeout机制，其实并不是难点，但却是很多开发同学容易忽略的点。很多问题的产生可能就是因为忽略了一些简单的原理导致的。所以这些基本的知识点需要掌握扎实，才能更好的驾驭Javascript。如果有兴趣可以翻墙看一看下面参考中的视频，强烈推荐！</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<p><a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ" target="_blank" rel="noopener">Philip Roberts: What the heck is the event loop anyway?</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2020/03/04/path-vs-fs/" rel="prev" title="node中的path">
+                node中的path <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Toy</p>
+              <p class="site-description motion-element" itemprop="description">田小虎的前端技术博客，有JavaScript、HTML、CSS、Vue、React、Node、React Hooks、Vuex、Redux、webPack、git 等技术领域知识</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Tinyuen" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:rayden@foxmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JS代码是怎么执行的"><span class="nav-number">1.</span> <span class="nav-text">JS代码是怎么执行的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Event-Loop"><span class="nav-number">2.</span> <span class="nav-text">Event Loop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SetTimeout"><span class="nav-number">3.</span> <span class="nav-text">SetTimeout();</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Toy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="300" alpha="0.6"  zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

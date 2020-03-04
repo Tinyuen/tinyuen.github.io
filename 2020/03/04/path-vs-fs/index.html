@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="path 模块提供了一些工具函数，用于处理文件与目录的路径">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node中的path">
+<meta property="og:url" content="https://tianxiaohu.online/blog/2020/03/04/path-vs-fs/index.html">
+<meta property="og:site_name" content="Toy&#39;s Blog">
+<meta property="og:description" content="path 模块提供了一些工具函数，用于处理文件与目录的路径">
+<meta property="article:published_time" content="2020-03-04T03:37:26.184Z">
+<meta property="article:modified_time" content="2020-03-04T03:37:26.184Z">
+<meta property="article:author" content="Toy">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="博客">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://tianxiaohu.online/blog/2020/03/04/path-vs-fs/"/>
+
+
+
+
+
+  <title>node中的path | Toy's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1fa3c27a2bfe5da369278aaf8874855e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Toy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/blog/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tianxiaohu.online/blog/blog/2020/03/04/path-vs-fs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Toy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Toy's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">node中的path</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-04T03:37:26+00:00">
+                2020-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>path 模块提供了一些工具函数，用于处理文件与目录的路径<br> <a id="more"></a></p>
+<h1 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h1><p>path 模块提供了一些工具函数，用于处理文件与目录的路径<br> <!-- more --></p>
+<h2 id="1-path-basename-path-ext"><a href="#1-path-basename-path-ext" class="headerlink" title="1. path.basename(path[, ext])"></a>1. path.basename(path[, ext])</h2><p>path.basename() 方法返回一个 path 的最后一部分</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path.basename(<span class="string">'/aaa/bbb/ccc.html'</span>);</span><br><span class="line">=&gt; ccc.html</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-path-dirname-path"><a href="#2-path-dirname-path" class="headerlink" title="2. path.dirname(path)"></a>2. path.dirname(path)</h2><p>path.dirname() 方法返回一个 path 的目录名</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path.basename(<span class="string">'/aaa/bbb/ccc.html'</span>);</span><br><span class="line">=&gt; <span class="regexp">/aaa/</span>bbb</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-path-extname-path"><a href="#3-path-extname-path" class="headerlink" title="3. path.extname(path)"></a>3. path.extname(path)</h2><p>path.extname() 方法返回 path 的扩展名，即从 path 的最后一部分中的最后一个 .（句号）字符到字符串结束。 如果 path 的最后一部分没有 . 或 path 的文件名（见 path.basename()）的第一个字符是 .，则返回一个空字符串。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path.basename(<span class="string">'/aaa/bbb/ccc.html'</span>);</span><br><span class="line">=&gt; .html</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-path-join-…paths"><a href="#4-path-join-…paths" class="headerlink" title="4. path.join([…paths])"></a>4. path.join([…paths])</h2><p>path.join() 方法使用平台特定的分隔符把全部给定的 path 片段连接到一起，并规范化生成的路径。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path.join(<span class="string">'/a'</span>,<span class="string">'b'</span>);             =&gt; <span class="string">'/a/b'</span></span><br><span class="line">path.join(<span class="string">'/a'</span>,<span class="string">'b'</span>, <span class="string">'..'</span>, <span class="string">'c'</span>)   =&gt; <span class="string">'/a/c'</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-path-relative-from-to"><a href="#5-path-relative-from-to" class="headerlink" title="5. path.relative(from, to)"></a>5. path.relative(from, to)</h2><p>path.relative() 方法返回从 from 到 to 的相对路径，通俗点将就是，从from为起点，to相对于它的路径</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path.relative(<span class="string">'/a/b/c/test'</span>, <span class="string">'/a/b/d/test2'</span>);</span><br><span class="line">=&gt; <span class="string">'../../d/test2'</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-path-resolve-…paths"><a href="#6-path-resolve-…paths" class="headerlink" title="6. path.resolve([…paths])"></a>6. path.resolve([…paths])</h2><p>path.resolve() 方法会把一个路径或路径片段的序列解析为一个绝对路径。给定的路径的序列是从右往左被处理的，后面每个 path 被依次解析，直到构造完成一个绝对路径后返回。如果处理完全部给定的 path 片段后还未生成一个绝对路径，则当前工作目录会被用上。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path.resolve(<span class="string">'/a/b'</span>, <span class="string">'./test'</span>);             =&gt; <span class="regexp">/a/</span>b/test</span><br><span class="line">path.resolve(<span class="string">'a'</span>, <span class="string">'b/c/'</span>, <span class="string">'../d/test'</span>);     =&gt; <span class="regexp">/home/</span>toy/a/b/d/test</span><br></pre></td></tr></table></figure>
+
+<h1 id="File-System"><a href="#File-System" class="headerlink" title="File System"></a>File System</h1><h2 id="1-fs-open-path-flags-mode-callback"><a href="#1-fs-open-path-flags-mode-callback" class="headerlink" title="1. fs.open(path, flags[, mode], callback)"></a>1. fs.open(path, flags[, mode], callback)</h2><p>异步地打开文件,callback有两个参数 err和fd  fd是返回的文件描述符</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fs.open(<span class="string">'./a.txt'</span>, <span class="string">'r'</span>, <span class="string">'0666'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, fd</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(fd);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-fs-read-fd-buffer-offset-length-position-callback"><a href="#2-fs-read-fd-buffer-offset-length-position-callback" class="headerlink" title="2. fs.read(fd, buffer, offset, length, position, callback)"></a>2. fs.read(fd, buffer, offset, length, position, callback)</h2><p>从 fd 指定的文件中读取数据。<br>buffer 是数据将被写入到的 buffer。<br>offset 是 buffer 中开始写入的偏移量。<br>length 是一个整数，指定要读取的字节数。<br>position 是一个整数，指定从文件中开始读取的位置。 如果 position 为 null，则数据从当前文件位置开始读取。</p>
+<h2 id="3-fs-readFile-file-options-callback"><a href="#3-fs-readFile-file-options-callback" class="headerlink" title="3. fs.readFile(file[, options], callback)"></a>3. fs.readFile(file[, options], callback)</h2><p>异步的读取一个文件的全部内容,如果字符编码未指定，则返回原始的 buffer。它是对read方法的一个进一步封装</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fs.readFile(<span class="string">'./a.txt'</span>, (err, data) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">    <span class="built_in">console</span>.log(data);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">fs.readFile(<span class="string">'./a.txt'</span>, <span class="string">'utf-8'</span>, (err, data) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">    <span class="built_in">console</span>.log(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Demo-读取文件"><a href="#Demo-读取文件" class="headerlink" title="Demo - 读取文件"></a>Demo - 读取文件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fs.open(<span class="string">'./a.txt'</span>, <span class="string">'r'</span>, (err, fd) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="keyword">throw</span> err;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> buf = Buffer.alloc(<span class="number">255</span>);</span><br><span class="line">    fs.read(fd, buf, <span class="number">0</span>, <span class="number">6</span>, <span class="literal">null</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, byteRead, buffer</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(byteRead); <span class="comment">// 实际读取的字节数</span></span><br><span class="line">        <span class="built_in">console</span>.log(buffer.toString());   <span class="comment">// 被读取的缓存区buffer</span></span><br><span class="line">        fs.close(fd, err =&gt; &#123;</span><br><span class="line">            <span class="keyword">throw</span> err;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="4-fs-write-fd-data-position-encoding-callback"><a href="#4-fs-write-fd-data-position-encoding-callback" class="headerlink" title="4. fs.write(fd, data[, position[, encoding]], callback)"></a>4. fs.write(fd, data[, position[, encoding]], callback)</h2><p>写入 data 到 fd 指定的文件。 如果 data 不是一个 Buffer 实例，则该值将被强制转换为一个字符串。<br>position 指向从文件开始写入数据的位置的偏移量，encoding 是期望的字符串编码。回调有三个参数 (err, written, string)，其中 written 指定传入的字符串被写入多少字节</p>
+<p>在 Linux 上，当文件以追加模式打开时，指定位置的写入是不起作用的。 内核会忽略位置参数，并总是将数据追加到文件的末尾。</p>
+<h2 id="5-fs-writeFile-file-data-options-callback"><a href="#5-fs-writeFile-file-data-options-callback" class="headerlink" title="5. fs.writeFile(file, data[, options], callback)"></a>5. fs.writeFile(file, data[, options], callback)</h2><p>异步地写入数据到文件，如果文件已经存在，则写入的内容会替换原有的内容，没有则创建文件。 data 可以是一个字符串或一个 buffer。如果 data 是一个 buffer，则忽略 encoding 选项。它默认为 ‘utf8’。</p>
+<p>它是对write方法的进一步封装</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fs.writeFile(<span class="string">'./a.txt'</span>, <span class="string">'Hello Node.js'</span>, (err) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'write finshed!'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<hr>
+<blockquote>
+<p>fs.write()和fs.writeFile()方法的比较(同read)</p>
+</blockquote>
+<p>与fs.readFile()方法和fs.read()方法的关系类似。fs.writeFile()也是对fs.write()方法的进一步封装，使用fs.readFile()方法省略了创建文件描述符的过程，可以更方便的向文件写入数据。</p>
+<blockquote>
+<p>fs.close() 打开的文件最后需要及时关掉</p>
+</blockquote>
+<p>其实如果不调用close()并不会立即抛出异常，但是Node对同时打开的文件数量是有限制的。如果你不停的open一个文件而不close，最后将会抛出异常：EMFILE: too many open files error.</p>
+<hr>
+<h2 id="6-fs-appendFile-file-data-options-callback"><a href="#6-fs-appendFile-file-data-options-callback" class="headerlink" title="6. fs.appendFile(file, data[, options], callback)"></a>6. fs.appendFile(file, data[, options], callback)</h2><p>异步地追加数据到一个文件，如果文件不存在则创建文件。 data 可以是一个字符串或 buffer。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fs.appendFile(<span class="string">'./a.txt'</span>, <span class="string">', Hello Hujiang!'</span>, (err) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'append complete!'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Demo-写入内容到文件"><a href="#Demo-写入内容到文件" class="headerlink" title="Demo - 写入内容到文件"></a>Demo - 写入内容到文件</h2><p>注意此时应该用读写模式打开文件，否则写入不成功，会报错</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">fs.open(<span class="string">'./a.txt'</span>, <span class="string">'r+'</span>, (err, fd) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="keyword">throw</span> err;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> buf = Buffer.from(<span class="string">'Nodejs好牛逼'</span>);</span><br><span class="line">    <span class="comment">//只写入“好牛逼”这三个字</span></span><br><span class="line">    fs.write(fd, buf, <span class="number">6</span>, <span class="number">9</span>, <span class="number">0</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, written, buffer</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">        <span class="built_in">console</span>.log(written); <span class="comment">// 实际读取的字节数</span></span><br><span class="line">        <span class="built_in">console</span>.log(buffer.toString());   <span class="comment">// 被读取的缓存区buffer</span></span><br><span class="line">        fs.close(fd, err =&gt; &#123;</span><br><span class="line">            <span class="keyword">throw</span> err;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>刷新缓存区</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">fs.open(<span class="string">'./a.txt'</span>, <span class="string">'r+'</span>, (err, fd) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="keyword">throw</span> err;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> buf = Buffer.from(<span class="string">'Nodejs好牛逼'</span>);</span><br><span class="line">    <span class="comment">//只写入“好牛逼”这三个字</span></span><br><span class="line">    fs.write(fd, buf, <span class="number">0</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, written, buffer</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">        <span class="built_in">console</span>.log(written); <span class="comment">// 实际写入的字节数</span></span><br><span class="line">        fs.write(fd, buf, <span class="number">6</span>, <span class="number">6</span>, <span class="literal">null</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, written, buffer</span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(written);</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<hr>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2020/03/04/How-JavaScript-Timer-Work/" rel="next" title="javascript 定时器是如何工作的">
+                <i class="fa fa-chevron-left"></i> javascript 定时器是如何工作的
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2020/03/04/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Toy</p>
+              <p class="site-description motion-element" itemprop="description">田小虎的前端技术博客，有JavaScript、HTML、CSS、Vue、React、Node、React Hooks、Vuex、Redux、webPack、git 等技术领域知识</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Tinyuen" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:rayden@foxmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Path"><span class="nav-number">1.</span> <span class="nav-text">Path</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-path-basename-path-ext"><span class="nav-number">1.1.</span> <span class="nav-text">1. path.basename(path[, ext])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-path-dirname-path"><span class="nav-number">1.2.</span> <span class="nav-text">2. path.dirname(path)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-path-extname-path"><span class="nav-number">1.3.</span> <span class="nav-text">3. path.extname(path)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-path-join-…paths"><span class="nav-number">1.4.</span> <span class="nav-text">4. path.join([…paths])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-path-relative-from-to"><span class="nav-number">1.5.</span> <span class="nav-text">5. path.relative(from, to)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-path-resolve-…paths"><span class="nav-number">1.6.</span> <span class="nav-text">6. path.resolve([…paths])</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#File-System"><span class="nav-number">2.</span> <span class="nav-text">File System</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-fs-open-path-flags-mode-callback"><span class="nav-number">2.1.</span> <span class="nav-text">1. fs.open(path, flags[, mode], callback)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-fs-read-fd-buffer-offset-length-position-callback"><span class="nav-number">2.2.</span> <span class="nav-text">2. fs.read(fd, buffer, offset, length, position, callback)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-fs-readFile-file-options-callback"><span class="nav-number">2.3.</span> <span class="nav-text">3. fs.readFile(file[, options], callback)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-读取文件"><span class="nav-number">2.4.</span> <span class="nav-text">Demo - 读取文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-fs-write-fd-data-position-encoding-callback"><span class="nav-number">2.5.</span> <span class="nav-text">4. fs.write(fd, data[, position[, encoding]], callback)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-fs-writeFile-file-data-options-callback"><span class="nav-number">2.6.</span> <span class="nav-text">5. fs.writeFile(file, data[, options], callback)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-fs-appendFile-file-data-options-callback"><span class="nav-number">2.7.</span> <span class="nav-text">6. fs.appendFile(file, data[, options], callback)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-写入内容到文件"><span class="nav-number">2.8.</span> <span class="nav-text">Demo - 写入内容到文件</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Toy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="300" alpha="0.6"  zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
