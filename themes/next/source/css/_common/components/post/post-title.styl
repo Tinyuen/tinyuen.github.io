@@ -1,5 +1,5 @@
 .posts-expand .post-title {
-  text-align: center;
+  text-align: left;
   word-break: break-word;
   font-weight: $posts-expand-title-font-weight
 }
@@ -8,7 +8,7 @@
   position: relative;
   color: $black-light;
   border-bottom: none;
-  line-height: 1.2;
+  line-height: 1.3;
   vertical-align: top;
 
   &::before {
@@ -18,7 +18,7 @@
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #000;
+    background-color: $my-theme-color;
     visibility: hidden;
     transform: scaleX(0);
     the-transition();
