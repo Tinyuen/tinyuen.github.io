@@ -51,7 +51,7 @@ footer:
   icon: user
 
   # If not defined, will be used `author` from Hexo main config.
-  copyright:
+  copyright: Copyright © 2019 tianxiaohu All rights reserved.
   # -------------------------------------------------------------
   # Hexo link (Powered by Hexo).
   powered: true
@@ -60,10 +60,10 @@ footer:
     # Theme & scheme info link (Theme - NexT.scheme).
     enable: true
     # Version info of NexT after scheme info (vX.X.X).
-    version: true
+    version: false
   # -------------------------------------------------------------
   # Any custom text can be defined here.
-  #custom_text: Hosted by <a target="_blank" href="https://pages.github.com">GitHub Pages</a>
+  custom_text: Hosted by <a target="_blank" href="https://github.com/Tinyuen/tinyuen.github.io">GitHub Pages</a>
 
 # ---------------------------------------------------------------
 # SEO Settings
@@ -93,12 +93,12 @@ index_with_subtitle: false
 # Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, question icon will be loaded.
 menu:
   home: /|| home
-  #tags: /tags/|| tags
-  #categories: /categories/|| th
-  archives: /archives/|| archive
+  categories: /categories/|| th
+  tags: /tags/|| tags
+  archives: /archives/ || archive
   #schedule: /schedule/|| calendar
   about: /about/|| user
-  sitemap: /sitemap.xml|| sitemap
+#  sitemap: /sitemap.xml|| sitemap
   #commonweal: /404/|| heartbeat
 
 # Enable/Disable menu icons.
@@ -159,7 +159,7 @@ links_layout: block
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.gif
 # in site  directory(source/uploads): /uploads/avatar.gif
-#avatar: /images/avatar.gif
+avatar: /images/author-avatar-pet.jpeg
 
 # Table Of Contents in the Sidebar
 toc:
@@ -193,7 +193,7 @@ sidebar:
 #  display: remove
 
   # Sidebar offset from top menubar in pixels (only for Pisces | Gemini).
-  offset: 12
+  offset: 15
 
   # Back to top in sidebar (only for Pisces | Gemini).
   b2t: false
@@ -203,6 +203,8 @@ sidebar:
 
   # Enable sidebar on narrow view (only for Muse | Mist).
   onmobile: false
+  # custom var
+  author_desc: '山川异域 风月同天'
 
 
 # ---------------------------------------------------------------
@@ -247,9 +249,9 @@ post_wordcount:
   #description: ex. subscribe to my blog by scanning my public wechat account
 
 # Reward
-#reward_comment: Donate comment here
-#wechatpay: /images/wechatpay.jpg
-#alipay: /images/alipay.jpg
+reward_comment: 原创不易，老板赏杯咖啡吧~ 😝
+wechatpay: /images/qr-money-wx.jpeg
+alipay: /images/qr-money-alipay.jpeg
 #bitcoin: /images/bitcoin.png
 
 # Declare license on posts

@@ -1,9 +1,13 @@
 ---
 title: javascript 定时器是如何工作的
+categories:
+- web前端
+tags:
+- JavaScript
 ---
 
 其实说起JavaScript中的定时器(_Timer_)中的 _setTimeout()_ 方法，从事开发的同学想必都不会陌生，觉得这些东西很简单很基础。但是有时候恰恰是基础简单的东西，才越容易被忽略。先看一段代码：
- <!-- more --> 
+ <!-- more -->
 ```javascript
 console.log('start');
 

@@ -1,5 +1,9 @@
 ---
 title: debounce
+categories:
+- web前端
+tags:
+- JavaScript
 ---
 
 记录下个人对防抖函数和节流函数的理解，在高频触发的事件中，较为实用。

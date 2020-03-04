@@ -64,7 +64,7 @@
           <span class="post-time">
             {% if theme.post_meta.created_at %}
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="fa fa-calendar"></i>
               </span>
               {% if theme.post_meta.item_text %}
                 <span class="post-meta-item-text">{{ __('post.posted') }}</span>
@@ -97,7 +97,7 @@
               <span class="post-meta-divider">|</span>
             {% endif %}
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="fa fa-folder-open-o"></i>
               </span>
               {% if theme.post_meta.item_text %}
                 <span class="post-meta-item-text">{{ __('post.in') }}</span>
@@ -334,6 +334,14 @@
     {### END POST BODY ###}
     {#####################}
 
+    {% if post.tags and post.tags.length and not is_index %}
+    <div class="post-tags">
+      {% for tag in post.tags %}
+      <a href="{{ url_for(tag.path) }}" rel="tag"># {{ tag.name }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
     {% if theme.wechat_subscriber.enabled and not is_index %}
       <div>
         {% include 'wechat-subscriber.swig' %}
@@ -353,13 +361,13 @@
     {% endif %}
 
     <footer class="post-footer">
-      {% if post.tags and post.tags.length and not is_index %}
-        <div class="post-tags">
-          {% for tag in post.tags %}
-            <a href="{{ url_for(tag.path) }}" rel="tag"># {{ tag.name }}</a>
-          {% endfor %}
-        </div>
-      {% endif %}
+      <!--{% if post.tags and post.tags.length and not is_index %}-->
+        <!--<div class="post-tags">-->
+          <!--{% for tag in post.tags %}-->
+            <!--<a href="{{ url_for(tag.path) }}" rel="tag"># {{ tag.name }}</a>-->
+          <!--{% endfor %}-->
+        <!--</div>-->
+      <!--{% endif %}-->
 
       {% if not is_index %}
       {% if theme.rating.enable or (theme.vkontakte_api.enable and theme.vkontakte_api.like) or (theme.facebook_sdk.enable and theme.facebook_sdk.like_button) or (theme.needmoreshare2.enable and theme.needmoreshare2.postbottom.enable) %}

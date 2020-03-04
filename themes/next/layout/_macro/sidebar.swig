@@ -30,18 +30,17 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             {% if theme.avatar %}
-              <img class="site-author-image" itemprop="image"
-                src="{{ url_for( theme.avatar | default(theme.images + '/avatar.gif') ) }}"
-                alt="{{ theme.author }}" />
+              <img class="site-author-image" itemprop="image" src="{{ url_for( theme.avatar | default(theme.images + '/avatar.gif') ) }}" alt="{{ theme.author }}" />
             {% endif %}
-              <p class="site-author-name" itemprop="name">{{ theme.author }}</p>
-              <p class="site-description motion-element" itemprop="description">{#
-            #}{% if theme.seo %}{#
-              #}{{ theme.signature }}{#
-            #}{% else %}{#
-              #}{{ theme.description }}{#
-            #}{% endif %}{#
-            #}</p>
+            <p class="site-author-name" itemprop="name">{{ theme.author }}</p>
+            <p class="site-description motion-element" itemprop="description">{{ theme.sidebar.author_desc}}</p>
+            <!--<p class="site-description motion-element" itemprop="description">{#-->
+            <!--#}{% if theme.seo %}{#-->
+              <!--#}{{ theme.signature }}{#-->
+            <!--#}{% else %}{#-->
+              <!--#}{{ theme.description }}{#-->
+            <!--#}{% endif %}{#-->
+            <!--#}</p>-->
           </div>
 
           <nav class="site-state motion-element">
@@ -49,7 +48,7 @@
             {% if config.archive_dir != '/' and site.posts.length > 0 %}
               <div class="site-state-item site-state-posts">
               {% if theme.menu.archives %}
-                <a href="{{ url_for(theme.menu.archives).split('||')[0] | trim }}">
+                <a href="{{ url_for(theme.menu.archives.split('||')[0] | trim) }}">
               {% else %}
                 <a href="{{ url_for(config.archive_dir) }}">
               {% endif %}
