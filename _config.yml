@@ -13,7 +13,7 @@ timezone: ''
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://tianxiaohu.online/blog/
+url: https://tianxiaohu.online
 root: /blog/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -87,6 +87,7 @@ pagination_dir: page
 # Include / Exclude file(s)
 ## include:/exclude: options only apply to the 'source/' folder
 include:
+  - .nojekyll
 exclude:
 ignore:
 
