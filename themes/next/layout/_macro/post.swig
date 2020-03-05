@@ -335,10 +335,52 @@
     {#####################}
 
     {% if post.tags and post.tags.length and not is_index %}
-    <div class="post-tags">
-      {% for tag in post.tags %}
-      <a href="{{ url_for(tag.path) }}" rel="tag"># {{ tag.name }}</a>
-      {% endfor %}
+    <div class="post-tags clearfix">
+      <div class="post-tags-wrap">
+        {% for tag in post.tags %}
+        <a href="{{ url_for(tag.path) }}" rel="tag"># {{ tag.name }}</a>
+        {% endfor %}
+      </div>
+      <div class="post-reward-wrap">
+        <div
+          class="post-reward-content"
+          title="希望可以帮到你，不求回报。但有你的支持，网站会变得更好！"
+          onmouseenter="onDonateHover();"
+          onmouseleave="onDonateLeave();"
+        >
+          <button class="reward-btn" id="rewardButton">
+            <!--<span>{{ __('reward.donate') }}</span>-->
+            <i class="fa fa-gratipay" aria-hidden="true"></i>
+          </button>
+          <div class="reward-title">{{ theme.reward_comment }}</div>
+        </div>
+      </div>
+      <!--donate-->
+      <div id="QR" class="qr-donate-content">
+        {% if theme.wechatpay %}
+        <div id="wechat" class="qr-donate-content-item">
+          <img id="wechat_qr" src="{{ theme.wechatpay }}" alt="{{ theme.author }} {{ __('reward.wechatpay') }}"/>
+          <!--<p>{{ __('reward.wechatpay') }}</p>-->
+          <div class="icon-pay wx"></div>
+        </div>
+        {% endif %}
+
+        {% if theme.alipay %}
+        <div id="alipay" class="qr-donate-content-item">
+          <img id="alipay_qr" src="{{ theme.alipay }}" alt="{{ theme.author }} {{ __('reward.alipay') }}"/>
+          <!--<p>{{ __('reward.alipay') }}</p>-->
+          <div class="icon-pay ali"></div>
+        </div>
+        {% endif %}
+
+        {% if theme.bitcoin %}
+        <div id="bitcoin" class="qr-donate-content-item">
+          <img id="bitcoin_qr" src="{{ theme.bitcoin }}" alt="{{ theme.author }} {{ __('reward.bitcoin') }}"/>
+          <p>{{ __('reward.bitcoin') }}</p>
+        </div>
+        {% endif %}
+
+      </div>
     </div>
     {% endif %}
 
