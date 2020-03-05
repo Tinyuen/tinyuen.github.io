@@ -13,6 +13,7 @@ script:
 # 构建完成后, 将代码public目录 push 到 gitee 码云，实现同时部署github和gitee
 after_script:
   - cd ./public
+  - ll
   - git remote set-url origin http://Tinyuen:Tianyuan3317@gitee.com/tinyuen/tinyuen.git
   - git add .
   - git push origin master
