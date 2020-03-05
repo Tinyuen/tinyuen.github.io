@@ -16,10 +16,10 @@ after_deploy:
   - git add .
   - git commit -m 'auto commit by Travis.'
   - git remote -v
-  - git remote add origin https://Tinyuen:Tianyuan3317@gitee.com/tinyuen/tinyuen.git
+  - git remote add gitee https://Tinyuen:Tianyuan3317@gitee.com/tinyuen/tinyuen.git
   - git remote -v
-  - git push origin master
-
+  - git push gitee master
+#  - git push --repo=https://Tinyuen:Tianyuan3317@gitee.com/tinyuen/tinyuen.git
 deploy:
   provider: pages
   skip-cleanup: true
