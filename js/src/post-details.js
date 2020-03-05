@@ -31,6 +31,15 @@ $(document).ready(function () {
 
 });
 
+function onDonateHover () {
+  var qr = document.getElementById('QR');
+  qr.style.display='block';
+}
+function onDonateLeave () {
+  var qr = document.getElementById('QR');
+  qr.style.display='none';
+}
+
 $(document).ready(function () {
   var html = $('html');
   var TAB_ANIMATE_DURATION = 200;
