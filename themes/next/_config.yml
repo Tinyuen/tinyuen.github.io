@@ -204,7 +204,7 @@ sidebar:
   # Enable sidebar on narrow view (only for Muse | Mist).
   onmobile: false
   # custom var
-  author_desc: '山川异域 风月同天'
+  author_desc: '美好的事情终将发生！'
 
 
 # ---------------------------------------------------------------
@@ -215,7 +215,7 @@ sidebar:
 scroll_to_more: true
 
 # Automatically saving scroll position on each post/page in cookies.
-save_scroll: false
+save_scroll: true
 
 # Automatically excerpt description in homepage as preamble text.
 excerpt_description: true
@@ -256,7 +256,7 @@ alipay: /images/qr-money-alipay.jpeg
 
 # Declare license on posts
 post_copyright:
-  enable: false
+  enable: true
   license: CC BY-NC-SA 3.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/3.0/
 
@@ -421,6 +421,13 @@ gitment:
   proxy_gateway: # Address of api proxy, See: https://github.com/aimingoo/intersect
   redirect_protocol: # Protocol of redirect_uri with force_redirect_protocol when mint enabled
 
+# utterances
+utterances:
+  enable: true
+  repo: Tinyuen/tianxiaohu.online.comments # owner/repo
+  issue_term: pathname   # pathname, url, title
+  theme: github-light    # github-light or github-dark
+
 # Baidu Share
 # Available value:
 #    button | slide
@@ -469,7 +476,7 @@ needmoreshare2:
 
 # Google Webmaster tools verification setting
 # See: https://www.google.com/webmasters/
-#google_site_verification:
+google_site_verification: hKWCDu33Dv6-y6EJW-7udhtxLwOkh93Pmyw3aVHQ8sI
 
 # Google Analytics
 #google_analytics:
