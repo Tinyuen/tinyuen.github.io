@@ -23,7 +23,7 @@
 
 {% if theme.footer.powered %}
   <div class="powered-by">
-    Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a>
+    Powered by <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow">Hexo</a>
   </div>
 {% endif %}
 
@@ -33,7 +33,7 @@
 
 {% if theme.footer.theme.enable %}
   <div class="theme-info">
-    Theme Base on <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+    Theme Base on <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
     {% if theme.footer.theme.version %} v{{ theme.version }}{% endif %}
     <span class="post-meta-divider">|</span>
     {{ theme.footer.custom_text }}

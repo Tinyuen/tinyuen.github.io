@@ -89,6 +89,7 @@ pagination_dir: page
 include:
   - .nojekyll
   - CNAME
+  - robots.txt
 exclude:
 ignore:
 
