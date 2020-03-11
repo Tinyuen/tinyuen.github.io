@@ -478,16 +478,23 @@ needmoreshare2:
 # See: https://www.google.com/webmasters/
 google_site_verification: hKWCDu33Dv6-y6EJW-7udhtxLwOkh93Pmyw3aVHQ8sI
 
-# Google Analytics
-#google_analytics:
+# Baidu Webmaster tools verification setting
+baidu_site_verification: HJudyV3125
+
+# qihu Webmaster tools verification setting
+qihu_site_verification:
 
 # Bing Webmaster tools verification setting
 # See: https://www.bing.com/webmaster/
-#bing_site_verification:
+bing_site_verification:
 
 # Yandex Webmaster tools verification setting
 # See: https://webmaster.yandex.ru/
-#yandex_site_verification:
+yandex_site_verification:
+
+# Google Analytics
+#google_analytics:
+
 
 # CNZZ count
 #cnzz_siteid:
