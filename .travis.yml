@@ -10,7 +10,6 @@ script:
   - hexo clean
   - hexo generate # generate static files
 
-# 构建完成后, 将代码public目录 push 到 gitee 码云，实现同时部署github和gitee
 after_deploy:
   - cd ./public
   - git checkout -b master
