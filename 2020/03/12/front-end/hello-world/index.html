@@ -76,7 +76,7 @@
 
 
 
-  <meta name="keywords" content="JavaScript," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -91,16 +91,17 @@
 
 
 
-<meta name="description" content="记录下个人对防抖函数和节流函数的理解，在高频触发的事件中，较为实用。">
+<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="debounce">
-<meta property="og:url" content="https://tianxiaohu.online/2020/03/11/front-end/debounce-vs-throttle/index.html">
+<meta property="og:title" content="Hello World">
+<meta property="og:url" content="https://tianxiaohu.online/2020/03/12/front-end/hello-world/index.html">
 <meta property="og:site_name" content="Toy&#39;s Blog">
-<meta property="og:description" content="记录下个人对防抖函数和节流函数的理解，在高频触发的事件中，较为实用。">
-<meta property="article:published_time" content="2020-03-11T16:13:10.707Z">
-<meta property="article:modified_time" content="2020-03-11T16:13:10.707Z">
+<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
+<meta property="article:published_time" content="2020-03-12T17:55:23.361Z">
+<meta property="article:modified_time" content="2020-03-12T17:55:23.361Z">
 <meta property="article:author" content="Toy">
-<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="博客">
 <meta name="twitter:card" content="summary">
 
 
@@ -131,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="https://tianxiaohu.online/2020/03/11/front-end/debounce-vs-throttle/"/>
+  <link rel="canonical" href="https://tianxiaohu.online/2020/03/12/front-end/hello-world/"/>
 
 
 
 
 
-  <title>debounce | Toy's Blog</title>
+  <title>Hello World | Toy's Blog</title>
   
 
 
@@ -284,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tianxiaohu.online/2020/03/11/front-end/debounce-vs-throttle/">
+    <link itemprop="mainEntityOfPage" href="https://tianxiaohu.online/2020/03/12/front-end/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Toy">
@@ -301,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">debounce</h1>
+          <h1 class="post-title" itemprop="name headline">Hello World</h1>
         
 
         <div class="post-meta">
@@ -313,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-11T16:13:10+00:00">
-                2020-03-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-12T17:55:23+00:00">
+                2020-03-12
               </time>
             
 
@@ -323,28 +324,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-open-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index">
-                    <span itemprop="name">web前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -373,29 +352,19 @@
       
 
       
-        <p>记录下个人对防抖函数和节流函数的理解，在高频触发的事件中，较为实用。<br> <a id="more"></a></p>
-<h2 id="debounce-func-wait-0-options"><a href="#debounce-func-wait-0-options" class="headerlink" title="_.debounce (func, [wait=0], [options])"></a>_.debounce (func, [wait=0], [options])</h2><p>创建一个防抖动函数。该函数会在 wait 毫秒后调用 func 方法。该函数提供一个 cancel 方法取消延迟的函数调用以及 flush 方法立即调用。可以提供一个 options 对象决定如何调用 func 方法，options.leading 和 options.trailing 决定延迟前后如何触发。func 会传入最后一次传入的参数给防抖动函数。随后调用的防抖动函数返回是最后一次 func 调用的结果。</p>
-<p>个人理解:</p>
-<ul>
-<li><p>wait = 400, leading = false, trailing = true<br>函数不会立即执行，当事件连续触发或两次触发间隔小于400ms的时候函数不会执行，直到事件停止触发且隔时间大于400ms，函数执行一次。若间隔时间小于400ms时再次触发事件，则函数执行时间重新开始计算。</p>
-</li>
-<li><p>wait = 400, leading = true, trailing = false<br>函数先立即执行一次，当事件连续触发或两次触发间隔小于400ms的时候函数不会执行，只有当事件停止触发且间隔时间大于400ms时，函数才会变成可执行状态（此时并不会自动自动触发），此时再次触发事件，函数会立即执行一次。</p>
-</li>
-<li><p>wait = 400, leading = true, trailing = true<br>如果都设为true的话，其实效果是相当于两个的结合，函数首先会执行一次，</p>
-</li>
-</ul>
-<p>场景1：页面resize时候，显示窗口大小<br>场景2：实时动态搜索框</p>
-<p>换一种方式实现Debounce</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn, wait</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.<br> <a id="more"></a></p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
-<h2 id="throttle-func-wait-0-options"><a href="#throttle-func-wait-0-options" class="headerlink" title="_.throttle (func, [wait=0], [options])"></a>_.throttle (func, [wait=0], [options])</h2><p>创建一个节流函数，在 wait 秒内最多执行 func 一次的函数。该函数提供一个 cancel 方法取消延迟函数调用以及 flush 方法立即调用。可以提供一个 options 对象决定如何调用 func 方法，options.leading 和 options.trailing 决定 wait 前后如何触发。func 会传入最后一次传入的参数给这个函数。随后调用的函数返回是最后一次 func 调用的结果。</p>
-<p>注意: 如果 leading 和 trailing 都设定为 true。 则 func 允许 trailing 方式调用的条件为: 在 wait 期间多次调用。</p>
-<p>相当于是给的bounce方法指定参数： maxWait、leading=true、trailing=true</p>
-<p>场景1：页面缩放始终保持弹窗居中显示<br>场景2：下拉加载</p>
-<p>换一种简单的方式实现Throttle</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> timer = <span class="literal">null</span>,</span><br><span class="line">        flag = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(flag) &#123;</span><br><span class="line">            fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">            flag = <span class="literal">false</span></span><br><span class="line">            timer &amp;&amp; clearTimeout(timer)</span><br><span class="line">            timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                flag = <span class="literal">true</span></span><br><span class="line">            &#125;, wait)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="节流和防抖区别"><a href="#节流和防抖区别" class="headerlink" title="节流和防抖区别"></a>节流和防抖区别</h2><p>最大的不同，通俗点说就是Debounce的函数可能很久都不会执行一次，但是Throttle的函数则保证了在给定的wait时间内肯定会执行一次，保证了函数的执行。</p>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
       
     </div>
@@ -403,49 +372,6 @@
     
     
 
-    
-    <div class="post-tags clearfix">
-      <div class="post-tags-wrap">
-        
-        <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
-        
-      </div>
-      <div class="post-reward-wrap">
-        <div
-          class="post-reward-content"
-          title="希望可以帮到你，不求回报。但有你的支持，网站会变得更好！"
-          onmouseenter="onDonateHover();"
-          onmouseleave="onDonateLeave();"
-        >
-          <button class="reward-btn" id="rewardButton">
-            <!--<span>打赏</span>-->
-            <i class="fa fa-gratipay" aria-hidden="true"></i>
-          </button>
-          <div class="reward-title">支持作者</div>
-        </div>
-      </div>
-      <!--donate-->
-      <div id="QR" class="qr-donate-content">
-        
-        <div id="wechat" class="qr-donate-content-item">
-          <img id="wechat_qr" src="/images/qr-money-wx.jpeg" alt="Toy 微信支付"/>
-          <!--<p>微信支付</p>-->
-          <div class="icon-pay wx"></div>
-        </div>
-        
-
-        
-        <div id="alipay" class="qr-donate-content-item">
-          <img id="alipay_qr" src="/images/qr-money-alipay.jpeg" alt="Toy 支付宝"/>
-          <!--<p>支付宝</p>-->
-          <div class="icon-pay ali"></div>
-        </div>
-        
-
-        
-
-      </div>
-    </div>
     
 
     
@@ -499,7 +425,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://tianxiaohu.online/2020/03/11/front-end/debounce-vs-throttle/" title="debounce">https://tianxiaohu.online/2020/03/11/front-end/debounce-vs-throttle/</a>
+    <a href="https://tianxiaohu.online/2020/03/12/front-end/hello-world/" title="Hello World">https://tianxiaohu.online/2020/03/12/front-end/hello-world/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -512,12 +438,6 @@
 
     <footer class="post-footer">
       <!---->
-        <!--<div class="post-tags">-->
-          <!---->
-            <!--<a href="/tags/JavaScript/" rel="tag"># JavaScript</a>-->
-          <!---->
-        <!--</div>-->
-      <!---->
 
       
       
@@ -527,8 +447,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/11/front-end/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2020/03/12/front-end/path-vs-fs/" rel="next" title="node中的path">
+                <i class="fa fa-chevron-left"></i> node中的path
               </a>
             
           </div>
@@ -536,6 +456,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/12/front-end/debounce-vs-throttle/" rel="prev" title="debounce">
+                debounce <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -672,13 +596,13 @@
             <div class="links-of-author motion-element">
                 
                   <span class="links-of-author-item">
-                    <a href="https://github.com/Tinyuen" target="_blank" title="GitHub">
+                    <a href="https://github.com/Tinyuen" target="_blank" rel="external nofollow" title="GitHub">
                       
                         <i class="fa fa-fw fa-github"></i>GitHub</a>
                   </span>
                 
                   <span class="links-of-author-item">
-                    <a href="mailto:rayden@foxmail.com" target="_blank" title="E-Mail">
+                    <a href="mailto:rayden@foxmail.com" target="_blank" rel="external nofollow" title="E-Mail">
                       
                         <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
                   </span>
@@ -707,7 +631,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#debounce-func-wait-0-options"><span class="nav-number">1.</span> <span class="nav-text">_.debounce (func, [wait&#x3D;0], [options])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#throttle-func-wait-0-options"><span class="nav-number">2.</span> <span class="nav-text">_.throttle (func, [wait&#x3D;0], [options])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#节流和防抖区别"><span class="nav-number">3.</span> <span class="nav-text">节流和防抖区别</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -753,12 +677,12 @@
     Theme Base on <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
     
     <span class="post-meta-divider">|</span>
-    Hosted by <a target="_blank" href="https://github.com/Tinyuen/tinyuen.github.io">GitHub Pages</a>
+    Hosted by <a target="_blank" rel="external nofollow" href="https://github.com/Tinyuen/tinyuen.github.io">GitHub Pages</a>
   </div>
 
 
 <!---->
-  <!--<div class="footer-custom">Hosted by <a target="_blank" href="https://github.com/Tinyuen/tinyuen.github.io">GitHub Pages</a></div>-->
+  <!--<div class="footer-custom">Hosted by <a target="_blank" rel="external nofollow" href="https://github.com/Tinyuen/tinyuen.github.io">GitHub Pages</a></div>-->
 <!---->
 
         
