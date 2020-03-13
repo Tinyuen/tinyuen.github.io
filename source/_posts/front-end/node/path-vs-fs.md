@@ -3,7 +3,7 @@ title: node中的path
 categories:
 - web前端
 tags:
-- Node.js
+- Node
 ---
 
 path 模块提供了一些工具函数，用于处理文件与目录的路径
