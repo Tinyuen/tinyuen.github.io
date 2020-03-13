@@ -10,14 +10,6 @@ script:
   - hexo clean
   - hexo generate # generate static files
 
-after_deploy:
-  - cd ./public
-  - git checkout -b master
-  - git add .
-  - git commit -m 'auto commit by Travis.'
-  - git remote add gitee https://Tinyuen:Tianyuan3317@gitee.com/tinyuen/tinyuen.git
-  - git push gitee master --force
-
 deploy:
   provider: pages
   skip-cleanup: true
