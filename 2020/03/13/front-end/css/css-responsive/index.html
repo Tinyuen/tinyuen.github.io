@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="hKWCDu33Dv6-y6EJW-7udhtxLwOkh93Pmyw3aVHQ8sI" />
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="HJudyV3125" />
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//cdn.jsdelivr.net/npm/font-awesome@4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CSS," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Toy's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="都说前端开发苦逼，一大原因就是成天要面对千变万化的手机屏幕尺寸，解决数不尽的兼容性问题。移动端屏幕CSS自适应就是个非常常见的需求，今天就将平时工作中采用的方案分享出来。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS移动端自适应解决方案">
+<meta property="og:url" content="https://tianxiaohu.online/2020/03/13/front-end/css/css-responsive/index.html">
+<meta property="og:site_name" content="Toy&#39;s Blog">
+<meta property="og:description" content="都说前端开发苦逼，一大原因就是成天要面对千变万化的手机屏幕尺寸，解决数不尽的兼容性问题。移动端屏幕CSS自适应就是个非常常见的需求，今天就将平时工作中采用的方案分享出来。">
+<meta property="article:published_time" content="2020-03-13T18:37:27.591Z">
+<meta property="article:modified_time" content="2020-03-13T18:37:27.591Z">
+<meta property="article:author" content="Toy">
+<meta property="article:tag" content="CSS">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":15,"b2t":false,"scrollpercent":false,"onmobile":false,"author_desc":"美好的事情终将发生！"},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://tianxiaohu.online/2020/03/13/front-end/css/css-responsive/"/>
+
+
+
+
+
+  <title>CSS移动端自适应解决方案 | Toy's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?48d536b2e048af7d2eb45c9f12ffb2cb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Toy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tianxiaohu.online/2020/03/13/front-end/css/css-responsive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Toy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author-avatar-pet.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Toy's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CSS移动端自适应解决方案</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-13T18:37:27+00:00">
+                2020-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-open-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">web前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>都说前端开发苦逼，一大原因就是成天要面对千变万化的手机屏幕尺寸，解决数不尽的兼容性问题。移动端屏幕CSS自适应就是个非常常见的需求，今天就将平时工作中采用的方案分享出来。</p>
+<a id="more"></a>
+<p>其实前端做CSS自适应的方案有很多，这次仅仅介绍一种在自己工作中比较常用的方案。具体步骤如下：</p>
+<h3 id="1-根节点font-size处理逻辑："><a href="#1-根节点font-size处理逻辑：" class="headerlink" title="1. 根节点font-size处理逻辑："></a>1. 根节点<code>font-size</code>处理逻辑：</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">designWidth, maxWidth</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> doc = <span class="built_in">document</span>, win = <span class="built_in">window</span>, docEl = doc.documentElement, tid;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">refreshRem</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> width = docEl.getBoundingClientRect().width;</span><br><span class="line">    maxWidth = maxWidth || <span class="number">540</span>;</span><br><span class="line">    width &gt; maxWidth &amp;&amp; (width = maxWidth);</span><br><span class="line">    <span class="keyword">var</span> rem = (width * <span class="number">100</span>) / designWidth;</span><br><span class="line">    docEl.style.fontSize = rem + <span class="string">'px'</span>;</span><br><span class="line">    <span class="keyword">var</span> actualSize = <span class="built_in">parseFloat</span>(<span class="built_in">window</span>.getComputedStyle(<span class="built_in">document</span>.documentElement)[<span class="string">'font-size'</span>]);</span><br><span class="line">    <span class="keyword">if</span> (actualSize !== rem &amp;&amp; actualSize &gt; <span class="number">0</span> &amp;&amp; <span class="built_in">Math</span>.abs(actualSize - rem) &gt; <span class="number">1</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> remScaled = rem * rem / actualSize;</span><br><span class="line">      docEl.style.fontSize = remScaled + <span class="string">'px'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  refreshRem();</span><br><span class="line">  win.addEventListener(<span class="string">'resize'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    clearTimeout(tid);</span><br><span class="line">    tid = setTimeout(refreshRem, <span class="number">300</span>);</span><br><span class="line">  &#125;, <span class="literal">false</span>);</span><br><span class="line">  win.addEventListener(<span class="string">'pageshow'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (e.persisted) &#123;</span><br><span class="line">      clearTimeout(tid);</span><br><span class="line">      tid = setTimeout(refreshRem, <span class="number">300</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, <span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">if</span> (doc.readyState === <span class="string">'complete'</span>) &#123;</span><br><span class="line">    doc.body.style.fontSize = <span class="string">'16px'</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    doc.addEventListener(<span class="string">'DOMContentLoaded'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">      doc.body.style.fontSize = <span class="string">'16px'</span>;</span><br><span class="line">    &#125;, <span class="literal">false</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)(<span class="number">750</span>, <span class="number">750</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-在页面引入"><a href="#2-在页面引入" class="headerlink" title="2. 在页面引入"></a>2. 在页面引入</h3><p>将上述代码置于html的 <code>&lt;head&gt;</code> 标签中，优先于页面的css代码加载。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="handlebars"><span class="xml"><span class="comment">&lt;!-- 此处放上面的代码 --&gt;</span></span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 业务css代码放在后面 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-编写css代码"><a href="#3-编写css代码" class="headerlink" title="3. 编写css代码"></a>3. 编写css代码</h3><p>配置好后，在css代码中就可以用<code>rem</code>代替<code>px</code>，一般开发中基本都会使用SASS或者LESS，所以可以借助函数来简化我们的开发工作。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 定义单位处理函数</span><br><span class="line"><span class="keyword">@function</span> p($px) &#123;</span><br><span class="line">    <span class="keyword">@return</span> $px / <span class="number">100</span> * <span class="number">1rem</span>;</span><br><span class="line">&#125;</span><br><span class="line">// 假设设计稿宽度20px</span><br><span class="line"><span class="selector-class">.test</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="built_in">P</span>(<span class="number">20</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 最后编译成</span><br><span class="line"><span class="selector-class">.test</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0.2rem</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-一劳永逸的方法"><a href="#4-一劳永逸的方法" class="headerlink" title="4. 一劳永逸的方法"></a>4. 一劳永逸的方法</h3><p>其实不难发现，虽然SASS能够减轻我们很多的开发负担，但是每次写<code>p(20)</code>这样的代码还是会浪费很多时间。有没有一劳永逸的方法呢？<br>答案是有的。如果你开发中使用<code>Webpack</code>作为构建工具，那么<code>postcss-plugin-px2rem</code>插件（详见 <a href="https://github.com/pigcan/postcss-plugin-px2rem" target="_blank" rel="noopener" title="插件文档">插件文档</a>)就会是个好的选择。这样你就可以摆脱频繁写css函数的困扰，直接按照设计稿标注的px值来写就好了。</p>
+<p>webpack 可以配置在对应sass文件的loader里面</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> autoprefixer <span class="keyword">from</span> <span class="string">'autoprefixer'</span>;</span><br><span class="line"><span class="keyword">import</span> px2rem <span class="keyword">from</span> <span class="string">'postcss-plugin-px2rem'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 配置项</span></span><br><span class="line"><span class="keyword">const</span> px2remOption = &#123;</span><br><span class="line">  rootValue: <span class="number">100</span>,</span><br><span class="line">  unitPrecision: <span class="number">5</span>,</span><br><span class="line">  minPixelValue: <span class="number">0</span>,</span><br><span class="line">  ignoreIdentifier: <span class="string">'no'</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> postcssLoader = &#123;</span><br><span class="line">  loader: <span class="string">'postcss-loader'</span>,</span><br><span class="line">  query: &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">      autoprefixer(),</span><br><span class="line">      px2rem(px2remOption)</span><br><span class="line">    ],</span><br><span class="line">    minimize: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 简化版webpack配置</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    loaders: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.scss$/</span>,</span><br><span class="line">        loader: [<span class="string">'css-loader'</span>, postcssLoader, <span class="string">'sass-loader'</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样一来，css的写法感觉又回到了我们熟悉的样子，webpack会帮我编译成我们需要的rem单位。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 20px就是设计稿标注的尺寸</span><br><span class="line"><span class="selector-class">.test</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上就是工作中用到的移动端适配方案。希望可以帮到你！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+    <div class="post-tags clearfix">
+      <div class="post-tags-wrap">
+        
+        <a href="/tags/CSS/" rel="tag"># CSS</a>
+        
+      </div>
+      <div class="post-reward-wrap">
+        <div
+          class="post-reward-content"
+          title="希望可以帮到你，不求回报。但有你的支持，网站会变得更好！"
+          onmouseenter="onDonateHover();"
+          onmouseleave="onDonateLeave();"
+        >
+          <button class="reward-btn" id="rewardButton">
+            <!--<span>打赏</span>-->
+            <i class="fa fa-gratipay" aria-hidden="true"></i>
+          </button>
+          <div class="reward-title">支持作者</div>
+        </div>
+      </div>
+      <!--donate-->
+      <div id="QR" class="qr-donate-content">
+        
+        <div id="wechat" class="qr-donate-content-item">
+          <img id="wechat_qr" src="/images/qr-money-wx.jpeg" alt="Toy 微信支付"/>
+          <!--<p>微信支付</p>-->
+          <div class="icon-pay wx"></div>
+        </div>
+        
+
+        
+        <div id="alipay" class="qr-donate-content-item">
+          <img id="alipay_qr" src="/images/qr-money-alipay.jpeg" alt="Toy 支付宝"/>
+          <!--<p>支付宝</p>-->
+          <div class="icon-pay ali"></div>
+        </div>
+        
+
+        
+
+      </div>
+    </div>
+    
+
+    
+
+    
+      <div>
+        <!--<div>-->
+  <!--<div-->
+    <!--class="post-reward-content"-->
+    <!--title="希望可以帮到你，不求回报。但有你的支持，网站会变得更好！"-->
+    <!--onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}"-->
+  <!--&gt;-->
+    <!--<button class="reward-btn" id="rewardButton">-->
+      <!--&lt;!&ndash;<span>打赏</span>&ndash;&gt;-->
+      <!--<i class="fa fa-gratipay" aria-hidden="true"></i>-->
+    <!--</button>-->
+    <!--<div class="reward-title">支持作者</div>-->
+  <!--</div>-->
+  <!--<div id="QR" style="display: none;">-->
+
+    <!---->
+      <!--<div id="wechat" style="display: inline-block">-->
+        <!--<img id="wechat_qr" src="/images/qr-money-wx.jpeg" alt="Toy 微信支付"/>-->
+        <!--&lt;!&ndash;<p>微信支付</p>&ndash;&gt;-->
+        <!--<div class="icon-pay wx"></div>-->
+      <!--</div>-->
+    <!---->
+
+    <!---->
+      <!--<div id="alipay" style="display: inline-block">-->
+        <!--<img id="alipay_qr" src="/images/qr-money-alipay.jpeg" alt="Toy 支付宝"/>-->
+        <!--&lt;!&ndash;<p>支付宝</p>&ndash;&gt;-->
+        <!--<div class="icon-pay ali"></div>-->
+      <!--</div>-->
+    <!---->
+
+    <!---->
+
+  <!--</div>-->
+<!--</div>-->
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Toy
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://tianxiaohu.online/2020/03/13/front-end/css/css-responsive/" title="CSS移动端自适应解决方案">https://tianxiaohu.online/2020/03/13/front-end/css/css-responsive/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      <!---->
+        <!--<div class="post-tags">-->
+          <!---->
+            <!--<a href="/tags/CSS/" rel="tag"># CSS</a>-->
+          <!---->
+        <!--</div>-->
+      <!---->
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/13/front-end/javascript/debounce-vs-throttle/" rel="next" title="debounce">
+                <i class="fa fa-chevron-left"></i> debounce
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+  <div class="comments" id="comments">
+    
+<script src="https://utteranc.es/client.js"
+        repo="Tinyuen/tianxiaohu.online.comments"
+        issue-term="pathname"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+  </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/author-avatar-pet.jpeg" alt="Toy" />
+            
+            <p class="site-author-name" itemprop="name">Toy</p>
+            <p class="site-description motion-element" itemprop="description">美好的事情终将发生！</p>
+            <!--<p class="site-description motion-element" itemprop="description">田小虎的前端技术博客，有JavaScript、HTML、CSS、Vue、React、Node、React Hooks、Vuex、Redux、webPack、git 等技术领域知识</p>-->
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Tinyuen" target="_blank" rel="external nofollow" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:rayden@foxmail.com" target="_blank" rel="external nofollow" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-根节点font-size处理逻辑："><span class="nav-number">1.</span> <span class="nav-text">1. 根节点font-size处理逻辑：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-在页面引入"><span class="nav-number">2.</span> <span class="nav-text">2. 在页面引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-编写css代码"><span class="nav-number">3.</span> <span class="nav-text">3. 编写css代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-一劳永逸的方法"><span class="nav-number">4.</span> <span class="nav-text">4. 一劳永逸的方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  <!---->
+  <!--&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>-->
+  <!--<span class="with-love">-->
+    <!--<i class="fa fa-user"></i>-->
+  <!--</span>-->
+  <span class="author" itemprop="copyrightHolder">Copyright © 2019 tianxiaohu All rights reserved.</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    Powered by <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow">Hexo</a>
+  </div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">
+    Theme Base on <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+    
+    <span class="post-meta-divider">|</span>
+    Hosted by <a target="_blank" rel="external nofollow" href="https://github.com/Tinyuen/tinyuen.github.io">GitHub Pages</a>
+  </div>
+
+
+<!---->
+  <!--<div class="footer-custom">Hosted by <a target="_blank" rel="external nofollow" href="https://github.com/Tinyuen/tinyuen.github.io">GitHub Pages</a></div>-->
+<!---->
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="300" alpha="0.6"  zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
