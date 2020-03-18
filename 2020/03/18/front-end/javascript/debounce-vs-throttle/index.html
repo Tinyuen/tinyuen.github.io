@@ -76,7 +76,7 @@
 
 
 
-  <meta name="keywords" content="CSS," />
+  <meta name="keywords" content="JavaScript," />
 
 
 
@@ -91,16 +91,16 @@
 
 
 
-<meta name="description" content="都说前端开发苦逼，一大原因就是成天要面对千变万化的手机屏幕尺寸，解决数不尽的兼容性问题。移动端屏幕CSS自适应就是个非常常见的需求，今天就将平时工作中采用的方案分享出来。">
+<meta name="description" content="记录下个人对防抖函数和节流函数的理解，在高频触发的事件中，较为实用。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSS移动端自适应解决方案">
-<meta property="og:url" content="https://tianxiaohu.online/2020/03/13/front-end/css/css-responsive/index.html">
+<meta property="og:title" content="debounce">
+<meta property="og:url" content="https://tianxiaohu.online/2020/03/18/front-end/javascript/debounce-vs-throttle/index.html">
 <meta property="og:site_name" content="Toy&#39;s Blog">
-<meta property="og:description" content="都说前端开发苦逼，一大原因就是成天要面对千变万化的手机屏幕尺寸，解决数不尽的兼容性问题。移动端屏幕CSS自适应就是个非常常见的需求，今天就将平时工作中采用的方案分享出来。">
-<meta property="article:published_time" content="2020-03-13T18:37:27.591Z">
-<meta property="article:modified_time" content="2020-03-13T18:37:27.591Z">
+<meta property="og:description" content="记录下个人对防抖函数和节流函数的理解，在高频触发的事件中，较为实用。">
+<meta property="article:published_time" content="2020-03-18T16:07:57.216Z">
+<meta property="article:modified_time" content="2020-03-18T16:07:57.216Z">
 <meta property="article:author" content="Toy">
-<meta property="article:tag" content="CSS">
+<meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="https://tianxiaohu.online/2020/03/13/front-end/css/css-responsive/"/>
+  <link rel="canonical" href="https://tianxiaohu.online/2020/03/18/front-end/javascript/debounce-vs-throttle/"/>
 
 
 
 
 
-  <title>CSS移动端自适应解决方案 | Toy's Blog</title>
+  <title>debounce | Toy's Blog</title>
   
 
 
@@ -284,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tianxiaohu.online/2020/03/13/front-end/css/css-responsive/">
+    <link itemprop="mainEntityOfPage" href="https://tianxiaohu.online/2020/03/18/front-end/javascript/debounce-vs-throttle/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Toy">
@@ -301,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">CSS移动端自适应解决方案</h1>
+          <h1 class="post-title" itemprop="name headline">debounce</h1>
         
 
         <div class="post-meta">
@@ -313,8 +313,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-13T18:37:27+00:00">
-                2020-03-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-18T16:07:57+00:00">
+                2020-03-18
               </time>
             
 
@@ -373,25 +373,29 @@
       
 
       
-        <p>都说前端开发苦逼，一大原因就是成天要面对千变万化的手机屏幕尺寸，解决数不尽的兼容性问题。移动端屏幕CSS自适应就是个非常常见的需求，今天就将平时工作中采用的方案分享出来。</p>
-<a id="more"></a>
-<p>其实前端做CSS自适应的方案有很多，这次仅仅介绍一种在自己工作中比较常用的方案。具体步骤如下：</p>
-<h3 id="1-根节点font-size处理逻辑："><a href="#1-根节点font-size处理逻辑：" class="headerlink" title="1. 根节点font-size处理逻辑："></a>1. 根节点<code>font-size</code>处理逻辑：</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">designWidth, maxWidth</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> doc = <span class="built_in">document</span>, win = <span class="built_in">window</span>, docEl = doc.documentElement, tid;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">refreshRem</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> width = docEl.getBoundingClientRect().width;</span><br><span class="line">    maxWidth = maxWidth || <span class="number">540</span>;</span><br><span class="line">    width &gt; maxWidth &amp;&amp; (width = maxWidth);</span><br><span class="line">    <span class="keyword">var</span> rem = (width * <span class="number">100</span>) / designWidth;</span><br><span class="line">    docEl.style.fontSize = rem + <span class="string">'px'</span>;</span><br><span class="line">    <span class="keyword">var</span> actualSize = <span class="built_in">parseFloat</span>(<span class="built_in">window</span>.getComputedStyle(<span class="built_in">document</span>.documentElement)[<span class="string">'font-size'</span>]);</span><br><span class="line">    <span class="keyword">if</span> (actualSize !== rem &amp;&amp; actualSize &gt; <span class="number">0</span> &amp;&amp; <span class="built_in">Math</span>.abs(actualSize - rem) &gt; <span class="number">1</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> remScaled = rem * rem / actualSize;</span><br><span class="line">      docEl.style.fontSize = remScaled + <span class="string">'px'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  refreshRem();</span><br><span class="line">  win.addEventListener(<span class="string">'resize'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    clearTimeout(tid);</span><br><span class="line">    tid = setTimeout(refreshRem, <span class="number">300</span>);</span><br><span class="line">  &#125;, <span class="literal">false</span>);</span><br><span class="line">  win.addEventListener(<span class="string">'pageshow'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (e.persisted) &#123;</span><br><span class="line">      clearTimeout(tid);</span><br><span class="line">      tid = setTimeout(refreshRem, <span class="number">300</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, <span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">if</span> (doc.readyState === <span class="string">'complete'</span>) &#123;</span><br><span class="line">    doc.body.style.fontSize = <span class="string">'16px'</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    doc.addEventListener(<span class="string">'DOMContentLoaded'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">      doc.body.style.fontSize = <span class="string">'16px'</span>;</span><br><span class="line">    &#125;, <span class="literal">false</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)(<span class="number">750</span>, <span class="number">750</span>);</span><br></pre></td></tr></table></figure>
+        <p>记录下个人对防抖函数和节流函数的理解，在高频触发的事件中，较为实用。<br> <a id="more"></a></p>
+<h2 id="debounce-func-wait-0-options"><a href="#debounce-func-wait-0-options" class="headerlink" title="_.debounce (func, [wait=0], [options])"></a>_.debounce (func, [wait=0], [options])</h2><p>创建一个防抖动函数。该函数会在 wait 毫秒后调用 func 方法。该函数提供一个 cancel 方法取消延迟的函数调用以及 flush 方法立即调用。可以提供一个 options 对象决定如何调用 func 方法，options.leading 和 options.trailing 决定延迟前后如何触发。func 会传入最后一次传入的参数给防抖动函数。随后调用的防抖动函数返回是最后一次 func 调用的结果。</p>
+<p>个人理解:</p>
+<ul>
+<li><p>wait = 400, leading = false, trailing = true<br>函数不会立即执行，当事件连续触发或两次触发间隔小于400ms的时候函数不会执行，直到事件停止触发且隔时间大于400ms，函数执行一次。若间隔时间小于400ms时再次触发事件，则函数执行时间重新开始计算。</p>
+</li>
+<li><p>wait = 400, leading = true, trailing = false<br>函数先立即执行一次，当事件连续触发或两次触发间隔小于400ms的时候函数不会执行，只有当事件停止触发且间隔时间大于400ms时，函数才会变成可执行状态（此时并不会自动自动触发），此时再次触发事件，函数会立即执行一次。</p>
+</li>
+<li><p>wait = 400, leading = true, trailing = true<br>如果都设为true的话，其实效果是相当于两个的结合，函数首先会执行一次，</p>
+</li>
+</ul>
+<p>场景1：页面resize时候，显示窗口大小<br>场景2：实时动态搜索框</p>
+<p>换一种方式实现Debounce</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn, wait</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-在页面引入"><a href="#2-在页面引入" class="headerlink" title="2. 在页面引入"></a>2. 在页面引入</h3><p>将上述代码置于html的 <code>&lt;head&gt;</code> 标签中，优先于页面的css代码加载。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="handlebars"><span class="xml"><span class="comment">&lt;!-- 此处放上面的代码 --&gt;</span></span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 业务css代码放在后面 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="3-编写css代码"><a href="#3-编写css代码" class="headerlink" title="3. 编写css代码"></a>3. 编写css代码</h3><p>配置好后，在css代码中就可以用<code>rem</code>代替<code>px</code>，一般开发中基本都会使用SASS或者LESS，所以可以借助函数来简化我们的开发工作。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 定义单位处理函数</span><br><span class="line"><span class="keyword">@function</span> p($px) &#123;</span><br><span class="line">    <span class="keyword">@return</span> $px / <span class="number">100</span> * <span class="number">1rem</span>;</span><br><span class="line">&#125;</span><br><span class="line">// 假设设计稿宽度20px</span><br><span class="line"><span class="selector-class">.test</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="built_in">P</span>(<span class="number">20</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 最后编译成</span><br><span class="line"><span class="selector-class">.test</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0.2rem</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-一劳永逸的方法"><a href="#4-一劳永逸的方法" class="headerlink" title="4. 一劳永逸的方法"></a>4. 一劳永逸的方法</h3><p>其实不难发现，虽然SASS能够减轻我们很多的开发负担，但是每次写<code>p(20)</code>这样的代码还是会浪费很多时间。有没有一劳永逸的方法呢？<br>答案是有的。如果你开发中使用<code>Webpack</code>作为构建工具，那么<code>postcss-plugin-px2rem</code>插件（详见 <a href="https://github.com/pigcan/postcss-plugin-px2rem" target="_blank" rel="noopener" title="插件文档">插件文档</a>)就会是个好的选择。这样你就可以摆脱频繁写css函数的困扰，直接按照设计稿标注的px值来写就好了。</p>
-<p>webpack 可以配置在对应sass文件的loader里面</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> autoprefixer <span class="keyword">from</span> <span class="string">'autoprefixer'</span>;</span><br><span class="line"><span class="keyword">import</span> px2rem <span class="keyword">from</span> <span class="string">'postcss-plugin-px2rem'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 配置项</span></span><br><span class="line"><span class="keyword">const</span> px2remOption = &#123;</span><br><span class="line">  rootValue: <span class="number">100</span>,</span><br><span class="line">  unitPrecision: <span class="number">5</span>,</span><br><span class="line">  minPixelValue: <span class="number">0</span>,</span><br><span class="line">  ignoreIdentifier: <span class="string">'no'</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> postcssLoader = &#123;</span><br><span class="line">  loader: <span class="string">'postcss-loader'</span>,</span><br><span class="line">  query: &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">      autoprefixer(),</span><br><span class="line">      px2rem(px2remOption)</span><br><span class="line">    ],</span><br><span class="line">    minimize: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 简化版webpack配置</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    loaders: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.scss$/</span>,</span><br><span class="line">        loader: [<span class="string">'css-loader'</span>, postcssLoader, <span class="string">'sass-loader'</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样一来，css的写法感觉又回到了我们熟悉的样子，webpack会帮我编译成我们需要的rem单位。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 20px就是设计稿标注的尺寸</span><br><span class="line"><span class="selector-class">.test</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上就是工作中用到的移动端适配方案。希望可以帮到你！</p>
+<h2 id="throttle-func-wait-0-options"><a href="#throttle-func-wait-0-options" class="headerlink" title="_.throttle (func, [wait=0], [options])"></a>_.throttle (func, [wait=0], [options])</h2><p>创建一个节流函数，在 wait 秒内最多执行 func 一次的函数。该函数提供一个 cancel 方法取消延迟函数调用以及 flush 方法立即调用。可以提供一个 options 对象决定如何调用 func 方法，options.leading 和 options.trailing 决定 wait 前后如何触发。func 会传入最后一次传入的参数给这个函数。随后调用的函数返回是最后一次 func 调用的结果。</p>
+<p>注意: 如果 leading 和 trailing 都设定为 true。 则 func 允许 trailing 方式调用的条件为: 在 wait 期间多次调用。</p>
+<p>相当于是给的bounce方法指定参数： maxWait、leading=true、trailing=true</p>
+<p>场景1：页面缩放始终保持弹窗居中显示<br>场景2：下拉加载</p>
+<p>换一种简单的方式实现Throttle</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> timer = <span class="literal">null</span>,</span><br><span class="line">        flag = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(flag) &#123;</span><br><span class="line">            fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">            flag = <span class="literal">false</span></span><br><span class="line">            timer &amp;&amp; clearTimeout(timer)</span><br><span class="line">            timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                flag = <span class="literal">true</span></span><br><span class="line">            &#125;, wait)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="节流和防抖区别"><a href="#节流和防抖区别" class="headerlink" title="节流和防抖区别"></a>节流和防抖区别</h2><p>最大的不同，通俗点说就是Debounce的函数可能很久都不会执行一次，但是Throttle的函数则保证了在给定的wait时间内肯定会执行一次，保证了函数的执行。</p>
 
       
     </div>
@@ -403,7 +407,7 @@
     <div class="post-tags clearfix">
       <div class="post-tags-wrap">
         
-        <a href="/tags/CSS/" rel="tag"># CSS</a>
+        <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
         
       </div>
       <div class="post-reward-wrap">
@@ -495,7 +499,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://tianxiaohu.online/2020/03/13/front-end/css/css-responsive/" title="CSS移动端自适应解决方案">https://tianxiaohu.online/2020/03/13/front-end/css/css-responsive/</a>
+    <a href="https://tianxiaohu.online/2020/03/18/front-end/javascript/debounce-vs-throttle/" title="debounce">https://tianxiaohu.online/2020/03/18/front-end/javascript/debounce-vs-throttle/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -510,7 +514,7 @@
       <!---->
         <!--<div class="post-tags">-->
           <!---->
-            <!--<a href="/tags/CSS/" rel="tag"># CSS</a>-->
+            <!--<a href="/tags/JavaScript/" rel="tag"># JavaScript</a>-->
           <!---->
         <!--</div>-->
       <!---->
@@ -523,8 +527,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/13/front-end/javascript/debounce-vs-throttle/" rel="next" title="debounce">
-                <i class="fa fa-chevron-left"></i> debounce
+              <a href="/2020/03/18/front-end/node/path-vs-fs/" rel="next" title="node中的path">
+                <i class="fa fa-chevron-left"></i> node中的path
               </a>
             
           </div>
@@ -532,6 +536,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/18/front-end/css/css-responsive/" rel="prev" title="CSS移动端自适应解决方案">
+                CSS移动端自适应解决方案 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -703,7 +711,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-根节点font-size处理逻辑："><span class="nav-number">1.</span> <span class="nav-text">1. 根节点font-size处理逻辑：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-在页面引入"><span class="nav-number">2.</span> <span class="nav-text">2. 在页面引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-编写css代码"><span class="nav-number">3.</span> <span class="nav-text">3. 编写css代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-一劳永逸的方法"><span class="nav-number">4.</span> <span class="nav-text">4. 一劳永逸的方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#debounce-func-wait-0-options"><span class="nav-number">1.</span> <span class="nav-text">_.debounce (func, [wait&#x3D;0], [options])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#throttle-func-wait-0-options"><span class="nav-number">2.</span> <span class="nav-text">_.throttle (func, [wait&#x3D;0], [options])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#节流和防抖区别"><span class="nav-number">3.</span> <span class="nav-text">节流和防抖区别</span></a></li></ol></div>
             
 
           </div>
