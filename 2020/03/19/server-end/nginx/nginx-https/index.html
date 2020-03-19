@@ -97,8 +97,8 @@
 <meta property="og:url" content="https://tianxiaohu.online/2020/03/19/server-end/nginx/nginx-https/index.html">
 <meta property="og:site_name" content="Toy&#39;s Blog">
 <meta property="og:description" content="本文将介绍如何通过 Nginx 来配置 SSL，开启接口的 https 调用。如果你正在开发微信小程序，那么可能会帮得上忙。">
-<meta property="article:published_time" content="2020-03-19T15:53:09.675Z">
-<meta property="article:modified_time" content="2020-03-19T15:53:09.675Z">
+<meta property="article:published_time" content="2020-03-19T16:14:55.535Z">
+<meta property="article:modified_time" content="2020-03-19T16:14:55.535Z">
 <meta property="article:author" content="Toy">
 <meta property="article:tag" content="Nginx">
 <meta name="twitter:card" content="summary">
@@ -313,7 +313,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-19T15:53:09+00:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-19T16:14:55+00:00">
                 2020-03-19
               </time>
             
@@ -375,46 +375,46 @@
       
         <p>本文将介绍如何通过 Nginx 来配置 SSL，开启接口的 https 调用。如果你正在开发微信小程序，那么可能会帮得上忙。</p>
 <a id="more"></a>
-<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>楼主前阵子写小程序，接口在 Http 环境测试通过，二级域名解析完毕，IP映射完毕，心想万事大吉，发布上线。谁料忘记了小程序生产环境接口必须使用 Https 协议。<br>百密一疏… 看来只能干干运维的活儿了。虽然最后搞定了，不过还是踩了些坑的，记录下。</p>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>楼主前阵子写小程序，接口在 Http 环境测试通过，二级域名解析完毕，IP映射完毕，心想万事大吉，发布上线。谁料忘记了小程序生产环境接口必须使用 Https 协议。百密一疏… 看来只能干干运维的活儿了。虽然最后搞定了，不过还是踩了些坑的，记录下。</p>
 <p>所以今天要实现功能就是通过我的二级域名 <code>https://api.tianxiaohu.online</code> 来访问服务器接口。</p>
 <h3 id="你需要准备："><a href="#你需要准备：" class="headerlink" title="你需要准备："></a>你需要准备：</h3><p>这部分不是主要的，所以需要你自行搞定，</p>
 <blockquote>
-<p>域名（楼主域名阿里云买的）<br>将域名解析到主机IP<br>服务器安装好 Nginx 环境（安装时务必安装ssl模块 –with-http_ssl_module，很简单，不会的自行Google）</p>
+<p>· 域名（楼主域名阿里云买的）<br>· 将域名解析到主机IP<br>· 服务器安装好 Nginx 环境（安装时务必安装ssl模块 –with-http_ssl_module，很简单，不会的自行Google）</p>
 </blockquote>
-<h3 id="为你的域名申请-SSL-证书"><a href="#为你的域名申请-SSL-证书" class="headerlink" title="为你的域名申请 SSL 证书"></a>为你的域名申请 SSL 证书</h3><p>为域名申请 SSL 证书其实并不复杂。总所周知，大部分的证书提供商是需要收费的，便宜的也得千把块一年。对于普通个人开发者而言确实是一笔不小的开支。<br>当然了，免费的证书也不是没有，无非就是安全性和稳定性不如收费的。其实平时个人使用还是完全可以 cover 的。<br>如果你使用的是阿里云，那么在阿里云上就有免费的证书可以<a href="https://common-buy.aliyun.com/?spm=5176.2020520163.c1583915649459.d1583915649459_0.d94056a7EtHbw3.d94056a7EtHbw3&commodityCode=cas#/buy" target="_blank" rel="noopener">购买</a>。<br>购买完，按照阿里云的使用文档，为自己的域名申请证书就ok了，不赘述~</p>
-<h3 id="配置-Nginx"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx</h3><p>因为之前你已经域名解析到了你的主机IP，接下来我们需要 Nginx 帮我做的事情就是监听服务器的443端口，然后转发到主机的接口服务上。从而实现通过https访问接口。Nginx具体的安装配置也不过多描述，按照文档来就好，相信不会难倒大家，这里只说一个比较棘手的情况，就是此前已经安装好了Nginx，但是并没有附带安装SSL包。<br>这种情况是有办法解决的，可以在不卸载 Nginx 的情况下完成SSL包的配置。详细请看<a href="">《如何为已经安装好的 Nginx 添加 SSL 模块》</a></p>
+<h3 id="为你的域名申请-SSL-证书"><a href="#为你的域名申请-SSL-证书" class="headerlink" title="为你的域名申请 SSL 证书"></a>为你的域名申请 SSL 证书</h3><p>为域名申请 SSL 证书其实并不复杂。总所周知，大部分的证书提供商是需要收费的，便宜的也得千把块一年。对于普通个人开发者而言确实是一笔不小的开支。当然了，免费的证书也不是没有，无非就是安全性和稳定性不如收费的。其实平时个人使用还是完全可以 cover 的。<br>如果你使用的是阿里云，那么在阿里云上就有免费的证书可以<a href="https://common-buy.aliyun.com/?spm=5176.2020520163.c1583915649459.d1583915649459_0.d94056a7EtHbw3.d94056a7EtHbw3&commodityCode=cas#/buy" target="_blank" rel="noopener">购买</a>。购买完，按照阿里云的使用文档，为自己的域名申请证书就ok了，不赘述~</p>
+<h3 id="配置-Nginx"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx</h3><p>因为之前你已经域名解析到了你的主机IP，接下来我们需要 Nginx 帮我做的事情就是监听服务器的443端口，然后转发到主机的接口服务上。从而实现通过https访问接口。Nginx具体的安装配置也不过多描述，按照文档来就好，相信不会难倒大家，这里只说一个比较棘手的情况，就是此前已经安装好了Nginx，但是并没有附带安装SSL包。</p>
+<p>这种情况是有办法解决的，可以在不卸载 Nginx 的情况下完成SSL包的配置。详细请看<a href="">《如何为已经安装好的 Nginx 添加 SSL 模块》</a></p>
 <p>开始前先说明下楼主的环境情况（不同环境可能操作有差异）：</p>
 <blockquote>
-<p>服务器：CentOS 7.x<br>本地机器：MacBook Pro<br>Nginx 版本：1.12.0<br>Nginx 安装目录：/usr/local/nginx</p>
+<p>· 服务器：CentOS 7.x<br>· 本地机器：MacBook Pro<br>· Nginx 版本：1.12.0<br>· Nginx 安装目录：/usr/local/nginx</p>
 </blockquote>
-<h4 id="1-下载-SSL-证书，存放到服务器"><a href="#1-下载-SSL-证书，存放到服务器" class="headerlink" title="1. 下载 SSL 证书，存放到服务器"></a>1. 下载 SSL 证书，存放到服务器</h4><p>如果你的域名 https 已经开通，那么在对应的平台（我的是阿里云）去下载证书文件。在下载的时候要注意选择对应的服务器类型。有 Tomcat、Apache、IIS、Nginx等，本文主要讲解Nginx，所以选择下载Nginx对应的证书文件到你本地。<br>下载后你会得到两个证书文件，假设为 <code>cert.pem</code> 和 <code>cert.key</code>。楼主存放到本地 <code>/Users/Toy/ssl</code> 目录。</p>
+<h4 id="1-下载-SSL-证书，存放到服务器"><a href="#1-下载-SSL-证书，存放到服务器" class="headerlink" title="1. 下载 SSL 证书，存放到服务器"></a>1. 下载 SSL 证书，存放到服务器</h4><p>如果你的域名 https 已经开通，那么在对应的平台（我的是阿里云）去下载证书文件。在下载的时候要注意选择对应的服务器类型。有 Tomcat、Apache、IIS、Nginx等，本文主要讲解Nginx，所以选择下载Nginx对应的证书文件到你本地。</p>
+<p>下载后你会得到两个证书文件，假设为 <code>cert.pem</code> 和 <code>cert.key</code>。楼主存放到本地 <code>/Users/Toy/ssl</code> 目录。</p>
 <h4 id="2-将证书文件推送到服务器"><a href="#2-将证书文件推送到服务器" class="headerlink" title="2. 将证书文件推送到服务器"></a>2. 将证书文件推送到服务器</h4><p>下载好的证书需要放置到服务器上，可以自己找个目录存放。楼主这里放到Nginx的安装目录里 <code>/usr/local/nginx/cert/ssl</code>。</p>
-<ul>
-<li><p>创建证书存放目录（目录可自选）：</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/nginx</span><br><span class="line">mkdir cert</span><br><span class="line">cd cert/</span><br><span class="line">mkdir ssl</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>推送本地证书文件至服务器新创建的目录：<br>推送方法比较多，可以选择使用FTP直接上传，不过需要先在服务器上配置好FTP。楼主比较喜欢简单的 SCP 命令，就是secure copy，是用来进行远程文件拷贝的。数据传输使用 ssh，并且和ssh 使用相同的认证方式，提供相同的安全保证。 </p>
-</li>
-</ul>
+<p>创建证书存放目录（目录可自选）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;nginx</span><br><span class="line">mkdir cert</span><br><span class="line">cd cert&#x2F;</span><br><span class="line">mkdir ssl</span><br></pre></td></tr></table></figure>
+
+<p>推送本地证书文件至服务器新创建的目录：</p>
+<p>推送方法比较多，可以选择使用FTP直接上传，不过需要先在服务器上配置好FTP。楼主比较喜欢简单的 SCP 命令，就是secure copy，是用来进行远程文件拷贝的。数据传输使用 ssh，并且和ssh 使用相同的认证方式，提供相同的安全保证。 </p>
 <p>命令格式：</p>
 <blockquote>
 <p>scp [参数] &lt;源地址（用户名@IP地址或主机名）&gt;:&lt;文件路径&gt; &lt;目的地址（用户名 @IP 地址或主机名）&gt;:&lt;文件路径&gt; </p>
 </blockquote>
 <p>找到之前本地存放证书的目录 <code>/Users/Toy/ssl</code>，然后在终端执行脚本。</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp /Users/Toy/ssl/cert.pem root@123.123.123.123:/usr/local/nginx/cert/ssl/cert.pem</span><br><span class="line">scp /Users/Toy/ssl/cert.key root@123.123.123.123:/usr/local/nginx/cert/ssl/cert.key</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp &#x2F;Users&#x2F;Toy&#x2F;ssl&#x2F;cert.pem root@123.123.123.123:&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;cert&#x2F;ssl&#x2F;cert.pem</span><br><span class="line">scp &#x2F;Users&#x2F;Toy&#x2F;ssl&#x2F;cert.key root@123.123.123.123:&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;cert&#x2F;ssl&#x2F;cert.key</span><br></pre></td></tr></table></figure>
 
 <p>以上两条命令即可搞定。</p>
 <h4 id="2-开放-443、80-端口"><a href="#2-开放-443、80-端口" class="headerlink" title="2. 开放 443、80 端口"></a>2. 开放 443、80 端口</h4><p>开放端口方法也很多，如果图省事，可以直接在阿里云控制台的安全组里面开放443端口或者80端口。（此方法开启后记得重启服务器，楼主开始也是通过此方法开启，然后一直不生效，坑了我2个小时😓）</p>
 <p>当然也可以通过命令行的方式。</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启动防火墙</span></span><br><span class="line">systemctl start firewalld.service</span><br><span class="line"><span class="meta">#</span><span class="bash"> 开启端口</span></span><br><span class="line">firewall-cmd --zone=public --add-port=80/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=443/tcp --permanent</span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启防火墙</span></span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 启动防火墙</span><br><span class="line">systemctl start firewalld.service</span><br><span class="line">&#x2F;&#x2F; 开启端口</span><br><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;80&#x2F;tcp --permanent</span><br><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;443&#x2F;tcp --permanent</span><br><span class="line">&#x2F;&#x2F; 重启防火墙</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
 
 <h4 id="3-编辑-nginx-conf-文件，配置-SSL-规则"><a href="#3-编辑-nginx-conf-文件，配置-SSL-规则" class="headerlink" title="3. 编辑 nginx.conf 文件，配置 SSL 规则"></a>3. 编辑 nginx.conf 文件，配置 SSL 规则</h4><p>编辑 nginx.conf</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure>
 
 <p>配置转发规则</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    # 同时监听443和80端口</span><br><span class="line">    listen       80;</span><br><span class="line">    listen       443 ssl;</span><br><span class="line">    server_name  api.tianxiaohu.online;</span><br><span class="line">    # 证书目录</span><br><span class="line">    ssl_certificate      /usr/local/nginx/cert/ssl/cert.pem;</span><br><span class="line">    ssl_certificate_key  /usr/local/nginx/cert/ssl/cert.key;</span><br><span class="line">    ssl_session_cache    shared:SSL:1m;</span><br><span class="line">    ssl_session_timeout  5m;</span><br><span class="line">    ssl_ciphers  HIGH:!aNULL:!MD5;</span><br><span class="line">    ssl_prefer_server_ciphers  on;</span><br><span class="line">    # 转发规则</span><br><span class="line">    location / &#123;</span><br><span class="line">        # 服务器接口地址</span><br><span class="line">        proxy_pass http://127.0.0.1:8080; </span><br><span class="line">        add_header Access-Control-Allow-Origin *;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    # 同时监听443和80端口</span><br><span class="line">    listen       <span class="number">80</span>;</span><br><span class="line">    listen       <span class="number">443</span> ssl;</span><br><span class="line">    server_name  api.tianxiaohu.online;</span><br><span class="line">    # 证书目录</span><br><span class="line">    ssl_certificate      /usr/local/nginx/cert/ssl/cert.pem;</span><br><span class="line">    ssl_certificate_key  /usr/local/nginx/cert/ssl/cert.key;</span><br><span class="line">    ssl_session_cache    shared:SSL:<span class="number">1</span>m;</span><br><span class="line">    ssl_session_timeout  <span class="number">5</span>m;</span><br><span class="line">    ssl_ciphers  HIGH:!aNULL:!MD5;</span><br><span class="line">    ssl_prefer_server_ciphers  on;</span><br><span class="line">    # 转发规则</span><br><span class="line">    location / &#123;</span><br><span class="line">        # 服务器接口地址</span><br><span class="line">        proxy_pass http:<span class="comment">//127.0.0.1:8080; </span></span><br><span class="line">        add_header Access-Control-Allow-Origin *;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>重启 Nginx</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
 
 <p>如此，如果操作不出意外，那么你就可以开心的使用 https 访问接口了。要不要点个右下角赏一杯咖啡？😃</p>
 
@@ -548,8 +548,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/19/front-end/css/css-responsive/" rel="next" title="CSS移动端自适应解决方案">
-                <i class="fa fa-chevron-left"></i> CSS移动端自适应解决方案
+              <a href="/2020/03/19/front-end/javascript/How-JavaScript-Timer-Work/" rel="next" title="javascript 定时器是如何工作的">
+                <i class="fa fa-chevron-left"></i> javascript 定时器是如何工作的
               </a>
             
           </div>
