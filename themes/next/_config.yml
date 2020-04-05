@@ -27,8 +27,8 @@ override: false
 # For example, you put your favicons into `hexo-site/source/images` directory.
 # Then need to rename & redefine they on any other names, otherwise icons from Next will rewrite your custom icons in Hexo.
 favicon:
-  small: /images/favicon-16x16-next.png
-  medium: /images/favicon-32x32-next.png
+  small: https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/favicon16.ico
+  medium: https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/favicon32.ico
   apple_touch_icon: /images/apple-touch-icon-next.png
   safari_pinned_tab: /images/logo.svg
   #android_manifest: /images/manifest.json
@@ -159,7 +159,7 @@ links_layout: block
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.gif
 # in site  directory(source/uploads): /uploads/avatar.gif
-avatar: /images/author-avatar-pet.jpeg
+avatar: https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/author-avatar-pet.jpeg
 
 # Table Of Contents in the Sidebar
 toc:
@@ -250,8 +250,8 @@ post_wordcount:
 
 # Reward
 reward_comment: 支持作者
-wechatpay: /images/qr-money-wx.jpeg
-alipay: /images/qr-money-alipay.jpeg
+wechatpay: https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/qr-money-wx.jpeg
+alipay: https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/qr-money-alipay.jpeg
 #bitcoin: /images/bitcoin.png
 
 # Declare license on posts
