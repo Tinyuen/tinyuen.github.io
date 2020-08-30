@@ -98,7 +98,7 @@
 <meta property="og:site_name" content="Toy&#39;s Blog">
 <meta property="og:description" content="本文将介绍如何通过 Nginx 来配置 SSL，开启接口的 https 调用。如果你正在开发微信小程序，那么可能会帮得上忙。">
 <meta property="article:published_time" content="2020-03-19T00:36:46.000Z">
-<meta property="article:modified_time" content="2020-04-06T15:32:58.530Z">
+<meta property="article:modified_time" content="2020-08-30T06:59:48.881Z">
 <meta property="article:author" content="Toy">
 <meta property="article:tag" content="Nginx">
 <meta name="twitter:card" content="summary">
@@ -383,7 +383,7 @@
 </blockquote>
 <h3 id="为你的域名申请-SSL-证书"><a href="#为你的域名申请-SSL-证书" class="headerlink" title="为你的域名申请 SSL 证书"></a>为你的域名申请 SSL 证书</h3><p>为域名申请 SSL 证书其实并不复杂。总所周知，大部分的证书提供商是需要收费的，便宜的也得千把块一年。对于普通个人开发者而言确实是一笔不小的开支。当然了，免费的证书也不是没有，无非就是安全性和稳定性不如收费的。其实平时个人使用还是完全可以 cover 的。<br>如果你使用的是阿里云，那么在阿里云上就有免费的证书可以<a href="https://common-buy.aliyun.com/?spm=5176.2020520163.c1583915649459.d1583915649459_0.d94056a7EtHbw3.d94056a7EtHbw3&commodityCode=cas#/buy" target="_blank" rel="noopener">购买</a>。购买完，按照阿里云的使用文档，为自己的域名申请证书就ok了，不赘述~</p>
 <h3 id="配置-Nginx"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx</h3><p>因为之前你已经域名解析到了你的主机IP，接下来我们需要 Nginx 帮我做的事情就是监听服务器的443端口，然后转发到主机的接口服务上。从而实现通过https访问接口。Nginx具体的安装配置也不过多描述，按照文档来就好，相信不会难倒大家，这里只说一个比较棘手的情况，就是此前已经安装好了Nginx，但是并没有附带安装SSL包。</p>
-<p>这种情况是有办法解决的，可以在不卸载 Nginx 的情况下完成SSL包的配置。详细请看<a href="">《如何为已经安装好的 Nginx 添加 SSL 模块》</a></p>
+<p>这种情况是有办法解决的，可以在不卸载 Nginx 的情况下完成SSL包的配置。详细请看<a href="/2020/03/21/server-end/nginx/nginx-add-ssl-module">《如何为已经安装好的 Nginx 添加 SSL 模块》</a></p>
 <p>开始前先说明下楼主的环境情况（不同环境可能操作有差异）：</p>
 <blockquote>
 <p>· 服务器：CentOS 7.x<br>· 本地机器：MacBook Pro<br>· Nginx 版本：1.12.0<br>· Nginx 安装目录：/usr/local/nginx</p>
@@ -699,13 +699,19 @@
                   <span class="links-of-author-item">
                     <a href="https://github.com/Tinyuen" target="_blank" rel="external nofollow" title="GitHub">
                       
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                        <i class="fa fa-fw fa-github"></i></a>
                   </span>
                 
                   <span class="links-of-author-item">
                     <a href="mailto:rayden@foxmail.com" target="_blank" rel="external nofollow" title="E-Mail">
                       
-                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://tinyuen.gitee.io" target="_blank" rel="external nofollow" title="Gitee">
+                      
+                        <i class="fa fa-fw fa-globe"></i></a>
                   </span>
                 
             </div>
