@@ -134,6 +134,7 @@ scheme: Pisces
 social:
   GitHub: https://github.com/Tinyuen || github
   E-Mail: mailto:rayden@foxmail.com || envelope
+  Gitee:  https://tinyuen.gitee.io || globe
   #Google: https://plus.google.com/yourname || google
   #Twitter: https://twitter.com/yourname || twitter
   #FB Page: https://www.facebook.com/yourname || facebook
@@ -145,7 +146,7 @@ social:
 
 social_icons:
   enable: true
-  icons_only: false
+  icons_only: true
   transition: false
 
 # Blog rolls
