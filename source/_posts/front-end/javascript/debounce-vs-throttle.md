@@ -1,5 +1,5 @@
 ---
-title: debounce
+title: debounce & throttle
 date: 2017-01-14 20:00:46
 categories:
 - web前端
