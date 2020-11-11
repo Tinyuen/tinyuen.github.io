@@ -76,6 +76,7 @@ meta_generator: true
 ## http://momentjs.com/docs/#/displaying/format/
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
+datetime_format: YYYY-MM-DD HH:mm
 ## Use post's date for updated date unless set in front-matter
 use_date_for_updated: false
 

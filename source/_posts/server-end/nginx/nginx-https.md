@@ -1,5 +1,6 @@
 ---
 title: Nginx + SSL 配置实现 https 访问
+type: 原创
 categories:
 - 服务端
 tags:

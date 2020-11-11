@@ -61,6 +61,9 @@
         {% endif %}
 
         <div class="post-meta">
+          {% if post.type %}
+          <span class="post-type-icon"><span class="text">{{post.type}}</span></span>
+          {% endif %}
           <span class="post-time">
             {% if theme.post_meta.created_at %}
               <span class="post-meta-item-icon">
@@ -70,7 +73,7 @@
                 <span class="post-meta-item-text">{{ __('post.posted') }}</span>
               {% endif %}
               <time title="{{ __('post.created') }}" itemprop="dateCreated datePublished" datetime="{{ moment(post.date).format() }}">
-                {{ date(post.date, config.date_format) }}
+                {{ date(post.date, config.datetime_format) }}
               </time>
             {% endif %}
 

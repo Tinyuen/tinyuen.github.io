@@ -1,6 +1,7 @@
 ---
 title: URL.createObjectURL 实现本地图片预览
 date: 2020-04-05 23:30:00
+type: 原创
 categories:
 - web前端
 tags:
