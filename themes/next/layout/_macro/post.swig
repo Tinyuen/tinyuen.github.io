@@ -61,8 +61,8 @@
         {% endif %}
 
         <div class="post-meta">
-          {% if post.type %}
-          <span class="post-type-icon"><span class="text">{{post.type}}</span></span>
+          {% if post.from %}
+          <span class="post-type-icon"><span class="text">{{post.from}}</span></span>
           {% endif %}
           <span class="post-time">
             {% if theme.post_meta.created_at %}

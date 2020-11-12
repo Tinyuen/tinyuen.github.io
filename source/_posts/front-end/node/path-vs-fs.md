@@ -1,7 +1,7 @@
 ---
 title: node中的path
 date: 2017-05-18 20:00:46
-type: 原创
+from: 原创
 categories:
 - web前端
 tags:

@@ -1,7 +1,7 @@
 ---
 title: IOS ( Safari ) 返回页面不刷新如何解决？
 date: 2017-04-11 22:39:00
-type: 原创
+from: 原创
 categories:
 - web前端
 tags:

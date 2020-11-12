@@ -1,7 +1,7 @@
 ---
 title: CSS移动端自适应解决方案
 date: 2020-02-21 20:00:46
-type: 原创
+from: 原创
 categories:
 - web前端
 tags:
