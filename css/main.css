@@ -453,7 +453,7 @@ body {
   }
 }
 .main {
-  padding-bottom: 150px;
+  padding-bottom: 250px;
 }
 .main-inner {
   margin: 0 auto;
@@ -1526,11 +1526,11 @@ pre .javascript .function {
   line-height: 15px;
 }
 .post-type-icon .text {
-  -webkit-transform: scale(0.75);
-  -moz-transform: scale(0.75);
-  -ms-transform: scale(0.75);
-  -o-transform: scale(0.75);
-  transform: scale(0.75);
+  -webkit-transform: scale(0.8);
+  -moz-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  -o-transform: scale(0.8);
+  transform: scale(0.8);
   display: inline-block;
 }
 .post-meta-item-icon {
@@ -2151,7 +2151,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #fff;
+  background: #90cde0;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3317,8 +3317,18 @@ pre .javascript .function {
     text-align: justify;
   }
 }
+.page-home {
+  background: url("https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.3/img/blog_bg.jpg") center no-repeat;
+  background-size: auto 100%;
+}
 .page-home .post-meta {
   margin-bottom: 5px;
+}
+.page-home .footer {
+  color: #fff;
+}
+.page-home .footer a {
+  color: #dedede;
 }
 .page-home .post-button.text-center {
   text-align: left;
