@@ -1589,15 +1589,26 @@ pre .javascript .function {
 .posts-expand .post-tags .qr-donate-content {
   display: none;
   position: absolute;
-  right: 0;
-  bottom: 40px;
+  right: -30px;
+  bottom: 50px;
   z-index: 1;
+  background: #fff;
+  padding: 20px 60px;
+  border-radius: 6px;
+  border: 1px solid #dedede;
+  text-align: center;
+  box-shadow: rgba(0,0,0,0.2) 0px 0px 10px 0px;
+}
+.posts-expand .post-tags .qr-donate-content-text {
+  font-size: 12px;
+  margin-bottom: 10px;
+  line-height: 20px;
 }
 .posts-expand .post-tags .qr-donate-content-item {
   display: inline-block;
-  margin-left: 20px;
+  margin-left: 40px;
 }
-.posts-expand .post-tags .qr-donate-content-item:first-child {
+.posts-expand .post-tags .qr-donate-content-item#wechat {
   margin-left: 0;
 }
 .posts-expand .post-tags .qr-donate-content-item a {
@@ -1607,7 +1618,7 @@ pre .javascript .function {
   margin: 0;
 }
 .posts-expand .post-tags .qr-donate-content-item img {
-  width: 100px;
+  width: 120px;
   max-width: 100%;
   display: inline-block;
   vertical-align: top;
@@ -1617,7 +1628,7 @@ pre .javascript .function {
 .posts-expand .post-tags .qr-donate-content-item .icon-pay {
   height: 12px;
   width: 100%;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 .posts-expand .post-tags .qr-donate-content-item .icon-pay.wx {
   background: url("data:image/png;base64,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") center no-repeat;
@@ -2151,7 +2162,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #90cde0;
+  background: #fea;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3344,6 +3355,12 @@ pre .javascript .function {
 .page-home .post-body p {
   margin-bottom: 15px;
   text-align: left;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: 14px;
 }
 .page-home .post-body .post-button {
   margin-top: 0px;
@@ -3379,6 +3396,28 @@ pre .javascript .function {
 .page-home .content .pagination .page-number.current {
   border: 1px solid #3d3744;
   background-color: #3d3744;
+}
+.page-post-detail .tag-cloud .tag-cloud-tags {
+  margin-top: 100px;
+}
+.page-post-detail .tag-cloud .tag-cloud-tags a {
+  border-bottom: none;
+}
+.page-post-detail .post-header .post-title {
+  color: #333;
+  font-weight: bold;
+}
+.page-post-detail .post-body p {
+  font-size: 15px;
+  color: #333;
+}
+.page-post-detail .post-body h1,
+.page-post-detail .post-body h2,
+.page-post-detail .post-body h3,
+.page-post-detail .post-body h4,
+.page-post-detail .post-body h5,
+.page-post-detail .post-body h6 {
+  color: #333;
 }
 .utterances {
   max-width: none;
