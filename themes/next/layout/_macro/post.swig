@@ -347,7 +347,7 @@
       <div class="post-reward-wrap">
         <div
           class="post-reward-content"
-          title="希望可以帮到你，不求回报。但有你的支持，网站会变得更好！"
+          title="捐赠作者"
           onmouseenter="onDonateHover();"
           onmouseleave="onDonateLeave();"
         >
@@ -360,6 +360,7 @@
       </div>
       <!--donate-->
       <div id="QR" class="qr-donate-content">
+      <div class="qr-donate-content-text">希望可以帮到你，不求回报<br/>但有你的支持，网站会变得更好！😃</div>
         {% if theme.wechatpay %}
         <div id="wechat" class="qr-donate-content-item">
           <img id="wechat_qr" src="{{ theme.wechatpay }}" alt="{{ theme.author }} {{ __('reward.wechatpay') }}"/>

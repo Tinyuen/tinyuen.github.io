@@ -26,6 +26,12 @@
     p{
       margin-bottom: 15px;
       text-align: left;
+      display: -webkit-box;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      font-size: 14px;
     }
     .post-button {
       margin-top: 0px;
@@ -64,6 +70,32 @@
     }
   }
 }
+.page-post-detail {
+  .tag-cloud {
+    .tag-cloud-tags {
+      margin-top: 100px;
+      a {
+        border-bottom: none;
+      }
+    }
+  }
+  .post-header {
+    .post-title {
+      color: #333;
+      font-weight: bold;
+    }
+  }
+  .post-body {
+    p {
+      font-size: 15px;
+      color: #333;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      color: #333;
+    }
+  }
+}
+
 .utterances {
   max-width: none;
 }
