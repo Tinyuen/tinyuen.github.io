@@ -38,6 +38,7 @@ obj.foo(); // 2
 call 和 apply 的区别在于，`call` 方法接受的是若干个参数的列表，而 `apply` 方法接受的是一个包含多个参数的数组。
 
 call apply 的使用方法举例:
+
 ```javascript
 // 判断数组： 
 Object.prototype.toString.call(obj) === '[object Array]';
@@ -45,7 +46,8 @@ Object.prototype.toString.call(obj) === '[object Array]';
 // 数组最大值:
 var numbers = [5, 458 , 120 , -215 ]; 
 Math.max.apply(null, numbers);   //458   
-``` 
+```
+
 
 ### 实现 call(ctx, arg1, arg2 ...)
 简单版本：
