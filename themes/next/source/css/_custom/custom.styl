@@ -1,15 +1,44 @@
 // Custom styles.
+body {
+  height: 100%;
+  .fix-bg {
+    background: url(https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.3/img/blog_bg.jpg) center no-repeat;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: -10;
+  }
+  .back-to-top {
+    background rgba(0, 0, 0, 0.81);
+    color #fff;
+    opacity 1;
+    padding 3px 0;
+    width 40px;
+    right 50px;
+    font-size 16px;
+    border-radius 4px;
+  }
+  .back-to-top:hover {
+    opacity 0.8;
+  }
+  .back-to-top.back-to-top-on {
+    bottom: 70px;
+  }
+  .container {
+    .footer {
+      .footer-inner {
+        color: #fff;
+        a {
+          color #dedede;
+        }
+      }
+    }
+  }
+}
 .page-home {
-  background: url("https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.3/img/blog_bg.jpg") center no-repeat;
-  background-size: auto 100%;
   .post-meta {
     margin-bottom: 5px;
-  }
-  .footer {
-    color: #fff;
-    a {
-      color #dedede;
-    }
   }
   .post-button.text-center {
     text-align: left;

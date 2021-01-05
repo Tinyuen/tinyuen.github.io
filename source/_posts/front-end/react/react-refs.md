@@ -9,11 +9,10 @@ tags:
 - JavaScript
 ---
 
-在常规的 React 数据流中，props 是父组件与子组件交互的唯一方式。要修改子元素，你需要用新的 props 去重新渲染子元素。然而，在少数情况下，你需要在常规数据流外强制修改子元素。被修改的子元素可以是 React 组件实例，或者是一个 DOM 元素。在这种情况下，React 提供了解决办法。
+在常规的 React 数据流中，props 是父组件与子组件交互的唯一方式。要修改子元素，你需要用新的 props 去重新渲染子元素。然而，在少数情况下，你需要在常规数据流外强制修改子元素。被修改的子元素可以是 React 组件实例，或者是一个 DOM 元素。在这种情况下，React 提供了解决办法。文章中会讲到 `React.useRef`、`React.createRef`、`React.forwardRef`、`回调 Refs` 相关知识。
 <!-- more -->
 
-你可能首先会想到在你的应用程序中使用 `Refs` 来更新组件。如果是这种情况，请花一点时间，想想是不是可以通过 `state` 的方式来实现，React 不建议过多的使用 `Refs`。
-`Refs` 会使组件的实例或者是DOM结构暴露，违反组件封装的原则。
+你可能首先会想到在你的应用程序中使用 `Refs` 来更新组件。如果是这种情况，请花一点时间，想想是不是可以通过 `state` 的方式来实现，React 不建议过多的使用 `Refs`。`Refs` 会使组件的实例或者是DOM结构暴露，违反组件封装的原则。
 
 但是有些场景下这会非常有用：
 
@@ -48,8 +47,7 @@ function TextInput() {
 
 这里的 `useRef` 就是 React 新特性中提供的一种 `Hooks`（[Hooks API 索引](https://zh-hans.reactjs.org/docs/hooks-reference.html)）。
 
-useRef 返回一个可变的 `ref` 对象，其 `.current` 属性被初始化为传入的参数（initialValue）。返回的 `ref` 对象在组件的整个生命周期内保持不变。这里 React 通过 `useRef` 方法返回的
-`inputEl` 传入 `input` 的 `ref` 属性，用来指向真实的DOM元素。
+useRef 返回一个可变的 `ref` 对象，其 `.current` 属性被初始化为传入的参数（initialValue）。返回的 `ref` 对象在组件的整个生命周期内保持不变。这里 React 通过 `useRef` 方法返回的 `inputEl` 传入 `input` 的 `ref` 属性，用来指向真实的DOM元素。
 
 当然 `useRef` 的作用不止于此....
 
@@ -86,8 +84,7 @@ class TextInput extends React.Component {
   }
 }
 ```
-通过 `React.createRef()` 创建了一个 ref 赋值给 `this.textInput`，传入 `input` 的 ref 属性，此时 `this.textInput.current` 将会拿到 input 的真实的 DOM，用来直接操作 DOM。
-React 组件在加载时将 DOM 元素传入 ref 的回调函数，在卸载时则会传入 null。
+通过 `React.createRef()` 创建了一个 ref 赋值给 `this.textInput`，传入 `input` 的 ref 属性，此时 `this.textInput.current` 将会拿到 input 的真实的 DOM，用来直接操作 DOM。React 组件在加载时将 DOM 元素传入 ref 的回调函数，在卸载时则会传入 null。
 
 
 ## 为类（Class）组件添加 Ref
@@ -199,13 +196,11 @@ class Parent extends React.Component {
   }
 }
 ```
-在上面的例子中，Parent 传递给它的 ref 回调函数作为 inputRef 传递给 FunctionalInput，然后 FunctionalInput 通过 ref 属性将其传递给 <input>。最终，Parent 中的 this.textInput 将被设置为与 FunctionalInput 中的 <input> 元素相对应的 DOM 节点。
+在上面的例子中，Parent 传递给它的 ref 回调函数作为 inputRef 传递给 FunctionalInput，然后 FunctionalInput 通过 ref 属性将其传递给 `<input>`。最终，Parent 中的 this.textInput 将被设置为与 FunctionalInput 中的 `<input>` 元素相对应的 DOM 节点。
 
 ## 暴露子组件的 DOM 节点
 
-某些特殊的情况下，我们可能会需要在父组件中获取到子组件的某个DOM节点。正常情况下，如果是自定义组件，我们通过 Refs 的获取方式获取到的一般是组件的实例对象，
-如果仅仅是希望获取到子组件的 DOM 节点，那么 `React.forwardRef` 将会帮上你的忙，前提是需要在 16.3 以上的版本。甚至搭配 `useImperativeMethods` 将会更完美。
-详见另一篇文章：[React 的 Refs 转发 React.forwardRef]() 。
+某些特殊的情况下，我们可能会需要在父组件中获取到子组件的某个DOM节点。正常情况下，如果是自定义组件，我们通过 Refs 的获取方式获取到的一般是组件的实例对象，如果仅仅是希望获取到子组件的 DOM 节点，那么 `React.forwardRef` 将会帮上你的忙，前提是需要在 16.3 以上的版本。甚至搭配 `useImperativeMethods` 将会更完美。详见另一篇文章：[React 的 Refs 转发 React.forwardRef]() 。
 
 
 以上。
