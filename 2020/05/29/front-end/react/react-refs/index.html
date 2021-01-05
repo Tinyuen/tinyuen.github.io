@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="hKWCDu33Dv6-y6EJW-7udhtxLwOkh93Pmyw3aVHQ8sI" />
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="HJudyV3125" />
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//cdn.jsdelivr.net/npm/font-awesome@4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/favicon32.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/favicon16.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JavaScript,React," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Toy's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="在常规的 React 数据流中，props 是父组件与子组件交互的唯一方式。要修改子元素，你需要用新的 props 去重新渲染子元素。然而，在少数情况下，你需要在常规数据流外强制修改子元素。被修改的子元素可以是 React 组件实例，或者是一个 DOM 元素。在这种情况下，React 提供了解决办法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node中的path">
+<meta property="og:url" content="https://tianxiaohu.online/2020/05/29/front-end/react/react-refs/index.html">
+<meta property="og:site_name" content="Toy&#39;s Blog">
+<meta property="og:description" content="在常规的 React 数据流中，props 是父组件与子组件交互的唯一方式。要修改子元素，你需要用新的 props 去重新渲染子元素。然而，在少数情况下，你需要在常规数据流外强制修改子元素。被修改的子元素可以是 React 组件实例，或者是一个 DOM 元素。在这种情况下，React 提供了解决办法。">
+<meta property="article:published_time" content="2020-05-29T23:11:38.000Z">
+<meta property="article:modified_time" content="2021-01-05T04:40:48.565Z">
+<meta property="article:author" content="Toy">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="React">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":15,"b2t":false,"scrollpercent":false,"onmobile":false,"author_desc":"永远相信，美好的事情终将发生！"},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://tianxiaohu.online/2020/05/29/front-end/react/react-refs/"/>
+
+
+
+
+
+  <title>node中的path | Toy's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?48d536b2e048af7d2eb45c9f12ffb2cb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Toy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tianxiaohu.online/2020/05/29/front-end/react/react-refs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Toy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/author-avatar-pet.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Toy's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">node中的path</h1>
+        
+
+        <div class="post-meta">
+          
+          <span class="post-type-icon"><span class="text">原创</span></span>
+          
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-29T23:11:38+00:00">
+                2020-05-29 23:11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-open-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">web前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在常规的 React 数据流中，props 是父组件与子组件交互的唯一方式。要修改子元素，你需要用新的 props 去重新渲染子元素。然而，在少数情况下，你需要在常规数据流外强制修改子元素。被修改的子元素可以是 React 组件实例，或者是一个 DOM 元素。在这种情况下，React 提供了解决办法。</p>
+<a id="more"></a>
+
+<p>你可能首先会想到在你的应用程序中使用 <code>Refs</code> 来更新组件。如果是这种情况，请花一点时间，想想是不是可以通过 <code>state</code> 的方式来实现，React 不建议过多的使用 <code>Refs</code>。<br><code>Refs</code> 会使组件的实例或者是DOM结构暴露，违反组件封装的原则。</p>
+<p>但是有些场景下这会非常有用：</p>
+<ul>
+<li>处理focus、文本选择或者媒体播放</li>
+<li>触发强制动画</li>
+<li>集成第三方DOM库</li>
+</ul>
+<p>React 中不同的版本都提供了不同的 <code>Refs</code> 使用方式，今天来总结下。</p>
+<h2 id="React-useRef"><a href="#React-useRef" class="headerlink" title="React.useRef"></a>React.useRef</h2><p>Hook 是 React 16.8 的新增特性。它可以让你在不编写 class 的情况下使用 state 以及其他的 React 特性。也就是说，以往无“状态的”函数式组件，现在也可以“有状态”了！，具体详见 React 的官方文档介绍，这里不做展开。</p>
+<p>我们先看一段代码：</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">TextInput</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> inputEl = useRef(<span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">const</span> onButtonClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// `inputEl.current` 指向已挂载到 DOM 上的文本输入元素</span></span><br><span class="line">    inputEl.current.focus();</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;input ref=&#123;inputEl&#125; <span class="keyword">type</span>=<span class="string">"text"</span> /&gt;</span><br><span class="line">      &lt;button onClick=&#123;onButtonClick&#125;&gt;Focus the input&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的 <code>useRef</code> 就是 React 新特性中提供的一种 <code>Hooks</code>（<a href="https://zh-hans.reactjs.org/docs/hooks-reference.html" target="_blank" rel="noopener">Hooks API 索引</a>）。</p>
+<p>useRef 返回一个可变的 <code>ref</code> 对象，其 <code>.current</code> 属性被初始化为传入的参数（initialValue）。返回的 <code>ref</code> 对象在组件的整个生命周期内保持不变。这里 React 通过 <code>useRef</code> 方法返回的<br><code>inputEl</code> 传入 <code>input</code> 的 <code>ref</code> 属性，用来指向真实的DOM元素。</p>
+<p>当然 <code>useRef</code> 的作用不止于此….</p>
+<h2 id="React-createRef"><a href="#React-createRef" class="headerlink" title="React.createRef"></a>React.createRef</h2><p>使用 <code>React.createRef()</code> 创建 <code>refs</code>，通过 <code>ref</code> 属性来获得 React 元素。当构造组件时，<code>refs</code> 通常被赋值给实例的一个属性，这样你可以在组件中任意一处使用它们。当一个 <code>ref</code> 属性被传递给一个 <code>render</code> 函数中的元素时，可以使用 <code>ref</code> 中的 <code>current</code> 属性对节点的引用进行访问。</p>
+<p>我们来看一段代码：</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> TextInput <span class="keyword">extends</span> React.Component &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params">props</span>) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="comment">// 创建一个 ref</span></span><br><span class="line">    <span class="keyword">this</span>.textInput = React.createRef();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  focusTextInput = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.textInput.current.focus();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;input <span class="keyword">type</span>=<span class="string">"text"</span> ref=&#123;<span class="keyword">this</span>.textInput&#125; /&gt;</span><br><span class="line">        &lt;input</span><br><span class="line">          <span class="keyword">type</span>=<span class="string">"button"</span></span><br><span class="line">          value=<span class="string">"Focus the text input"</span></span><br><span class="line">          onClick=&#123;<span class="keyword">this</span>.focusTextInput&#125;</span><br><span class="line">        /&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>通过 <code>React.createRef()</code> 创建了一个 ref 赋值给 <code>this.textInput</code>，传入 <code>input</code> 的 ref 属性，此时 <code>this.textInput.current</code> 将会拿到 input 的真实的 DOM，用来直接操作 DOM。<br>React 组件在加载时将 DOM 元素传入 ref 的回调函数，在卸载时则会传入 null。</p>
+<h2 id="为类（Class）组件添加-Ref"><a href="#为类（Class）组件添加-Ref" class="headerlink" title="为类（Class）组件添加 Ref"></a>为类（Class）组件添加 Ref</h2><p>以上面的 Class 组件 <code>TextInput</code> 为基础组件，我们再来添加一个父组件：</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> AutoFocusTextInput <span class="keyword">extends</span> React.Component &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params">props</span>) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.textInput = React.createRef();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    <span class="keyword">this</span>.textInput.current.focusTextInput();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;TextInput ref=&#123;<span class="keyword">this</span>.textInput&#125; /&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式 <code>this.textInput.current</code> 将会引用到 <code>TextInput</code> 子组件的实例对象。用来调用子组件的方法。</p>
+<p>需要注意的是，这种方法仅对以类(class)声明的 TextInput 有效！因为 Class 组件才会有实例对象。</p>
+<h2 id="为函数式（Functional）组件添加-Ref"><a href="#为函数式（Functional）组件添加-Ref" class="headerlink" title="为函数式（Functional）组件添加 Ref"></a>为函数式（Functional）组件添加 Ref</h2><p>因为 ref 属性只能用在 Class 组件上，所以下面这样使用将会是无效的。</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">FunctionalInput</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &lt;input /&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Parent <span class="keyword">extends</span> React.Component &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params">props</span>) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.textInput = React.createRef();</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="comment">// This will *not* work!</span></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;FunctionalInput ref=&#123;<span class="keyword">this</span>.textInput&#125; /&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那函数式组件如何使用 Ref 呢？ 我看看一段代码:</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">FunctionalInput</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// textInput 用来存储 ref</span></span><br><span class="line">  <span class="keyword">let</span> textInput = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">handleClick</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    textInput.focus();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;input <span class="keyword">type</span>=<span class="string">"text"</span> ref=&#123;<span class="function"><span class="params">input</span> =&gt;</span> textInput = input&#125; /&gt;</span><br><span class="line">      &lt;input</span><br><span class="line">        <span class="keyword">type</span>=<span class="string">"button"</span></span><br><span class="line">        value=<span class="string">"Focus the text input"</span></span><br><span class="line">        onClick=&#123;handleClick&#125;</span><br><span class="line">      /&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );  </span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>React 将在组件挂载时将 input 的 DOM 元素传入 ref 回调函数并调用，这样 <code>textInput</code> 就会拿到 input 的DOM 引用。当卸载时会传入 null 并调用它该回调函数。</p>
+<h2 id="回调-Refs"><a href="#回调-Refs" class="headerlink" title="回调 Refs"></a>回调 Refs</h2><p>回调 Ref 也是一种设置 <code>Refs</code> 的方式。ref 属性将会接受一个回调函数，这个函数接受 React 组件的实例或 HTML DOM 元素作为参数，以存储它们并使它们能被其他地方访问。</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">FunctionalInput</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;input ref=&#123;props.inputRef&#125; /&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">class Parent extends React.Component &#123;</span></span><br><span class="line"><span class="regexp">  constructor(props) &#123;</span></span><br><span class="line"><span class="regexp">    super(props);</span></span><br><span class="line"><span class="regexp">    this.textInput = null;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">  setInputRef = (el) =&gt; &#123;</span></span><br><span class="line"><span class="regexp">    this.textInput = el;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">  componentDidMount() &#123;</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/ 渲染后文本框自动获得焦点</span></span><br><span class="line"><span class="regexp">    this.textInput.focus();</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">  render() &#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">      &lt;FunctionalInput inputRef=&#123;this.setInputRef&#125; /</span>&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，Parent 传递给它的 ref 回调函数作为 inputRef 传递给 FunctionalInput，然后 FunctionalInput 通过 ref 属性将其传递给 <input>。最终，Parent 中的 this.textInput 将被设置为与 FunctionalInput 中的 <input> 元素相对应的 DOM 节点。</p>
+<h2 id="暴露子组件的-DOM-节点"><a href="#暴露子组件的-DOM-节点" class="headerlink" title="暴露子组件的 DOM 节点"></a>暴露子组件的 DOM 节点</h2><p>某些特殊的情况下，我们可能会需要在父组件中获取到子组件的某个DOM节点。正常情况下，如果是自定义组件，我们通过 Refs 的获取方式获取到的一般是组件的实例对象，<br>如果仅仅是希望获取到子组件的 DOM 节点，那么 <code>React.forwardRef</code> 将会帮上你的忙，前提是需要在 16.3 以上的版本。甚至搭配 <code>useImperativeMethods</code> 将会更完美。<br>详见另一篇文章：<a href="">React 的 Refs 转发 React.forwardRef</a> 。</p>
+<p>以上。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+    <div class="post-tags clearfix">
+      <div class="post-tags-wrap">
+        
+        <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+        
+        <a href="/tags/React/" rel="tag"># React</a>
+        
+      </div>
+      <div class="post-reward-wrap">
+        <div
+          class="post-reward-content"
+          title="捐赠作者"
+          onmouseenter="onDonateHover();"
+          onmouseleave="onDonateLeave();"
+        >
+          <button class="reward-btn" id="rewardButton">
+            <!--<span>打赏</span>-->
+            <i class="fa fa-gratipay" aria-hidden="true"></i>
+          </button>
+          <div class="reward-title">支持作者</div>
+        </div>
+      </div>
+      <!--donate-->
+      <div id="QR" class="qr-donate-content">
+      <div class="qr-donate-content-text">希望可以帮到你，不求回报<br/>但有你的支持，网站会变得更好！😃</div>
+        
+        <div id="wechat" class="qr-donate-content-item">
+          <img id="wechat_qr" src="https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/qr-money-wx.jpeg" alt="Toy 微信支付"/>
+          <!--<p>微信支付</p>-->
+          <div class="icon-pay wx"></div>
+        </div>
+        
+
+        
+        <div id="alipay" class="qr-donate-content-item">
+          <img id="alipay_qr" src="https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/qr-money-alipay.jpeg" alt="Toy 支付宝"/>
+          <!--<p>支付宝</p>-->
+          <div class="icon-pay ali"></div>
+        </div>
+        
+
+        
+
+      </div>
+    </div>
+    
+
+    
+
+    
+      <div>
+        <!--<div>-->
+  <!--<div-->
+    <!--class="post-reward-content"-->
+    <!--title="希望可以帮到你，不求回报。但有你的支持，网站会变得更好！"-->
+    <!--onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}"-->
+  <!--&gt;-->
+    <!--<button class="reward-btn" id="rewardButton">-->
+      <!--&lt;!&ndash;<span>打赏</span>&ndash;&gt;-->
+      <!--<i class="fa fa-gratipay" aria-hidden="true"></i>-->
+    <!--</button>-->
+    <!--<div class="reward-title">支持作者</div>-->
+  <!--</div>-->
+  <!--<div id="QR" style="display: none;">-->
+
+    <!---->
+      <!--<div id="wechat" style="display: inline-block">-->
+        <!--<img id="wechat_qr" src="https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/qr-money-wx.jpeg" alt="Toy 微信支付"/>-->
+        <!--&lt;!&ndash;<p>微信支付</p>&ndash;&gt;-->
+        <!--<div class="icon-pay wx"></div>-->
+      <!--</div>-->
+    <!---->
+
+    <!---->
+      <!--<div id="alipay" style="display: inline-block">-->
+        <!--<img id="alipay_qr" src="https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/qr-money-alipay.jpeg" alt="Toy 支付宝"/>-->
+        <!--&lt;!&ndash;<p>支付宝</p>&ndash;&gt;-->
+        <!--<div class="icon-pay ali"></div>-->
+      <!--</div>-->
+    <!---->
+
+    <!---->
+
+  <!--</div>-->
+<!--</div>-->
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Toy
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://tianxiaohu.online/2020/05/29/front-end/react/react-refs/" title="node中的path">https://tianxiaohu.online/2020/05/29/front-end/react/react-refs/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      <!---->
+        <!--<div class="post-tags">-->
+          <!---->
+            <!--<a href="/tags/JavaScript/" rel="tag"># JavaScript</a>-->
+          <!---->
+            <!--<a href="/tags/React/" rel="tag"># React</a>-->
+          <!---->
+        <!--</div>-->
+      <!---->
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/05/front-end/javascript/image-preview/" rel="next" title="URL.createObjectURL 实现本地图片预览">
+                <i class="fa fa-chevron-left"></i> URL.createObjectURL 实现本地图片预览
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+  <div class="comments" id="comments">
+    
+<script src="https://utteranc.es/client.js"
+        repo="Tinyuen/tianxiaohu.online.comments"
+        issue-term="pathname"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+  </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/img/author-avatar-pet.jpeg" alt="Toy" />
+            
+            <p class="site-author-name" itemprop="name">Toy</p>
+            <p class="site-description motion-element" itemprop="description">永远相信，美好的事情终将发生！</p>
+            <!--<p class="site-description motion-element" itemprop="description">田小虎的前端技术博客，有JavaScript、HTML、CSS、Vue、React、Node、React Hooks、Vuex、Redux、webPack、git 等技术领域知识</p>-->
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Tinyuen" target="_blank" rel="external nofollow" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:rayden@foxmail.com" target="_blank" rel="external nofollow" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://tinyuen.gitee.io" target="_blank" rel="external nofollow" title="Gitee">
+                      
+                        <i class="fa fa-fw fa-globe"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#React-useRef"><span class="nav-text">React.useRef</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-createRef"><span class="nav-text">React.createRef</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为类（Class）组件添加-Ref"><span class="nav-text">为类（Class）组件添加 Ref</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为函数式（Functional）组件添加-Ref"><span class="nav-text">为函数式（Functional）组件添加 Ref</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回调-Refs"><span class="nav-text">回调 Refs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#暴露子组件的-DOM-节点"><span class="nav-text">暴露子组件的 DOM 节点</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  <!---->
+  <!--&copy; 2019 &mdash; <span itemprop="copyrightYear">2021</span>-->
+  <!--<span class="with-love">-->
+    <!--<i class="fa fa-user"></i>-->
+  <!--</span>-->
+  <span class="author" itemprop="copyrightHolder">Copyright © 2019 tianxiaohu All rights reserved.</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    Powered by <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow">Hexo</a>
+  </div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">
+    Theme Base on <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+    
+    <span class="post-meta-divider">|</span>
+    Hosted by <a target="_blank" rel="external nofollow" href="https://github.com/Tinyuen/tinyuen.github.io">GitHub Pages</a>
+  </div>
+
+
+<!---->
+  <!--<div class="footer-custom">Hosted by <a target="_blank" rel="external nofollow" href="https://github.com/Tinyuen/tinyuen.github.io">GitHub Pages</a></div>-->
+<!---->
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+  
+
+
+  
+
+
+  <!--  <script type="text/javascript" src="/js///cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/utils.min.js?v=5.1.4"></script>-->
+  <script type="text/javascript" src="//cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/utils.min.js"></script>
+
+  <!--  <script type="text/javascript" src="/js///cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/motion.min.js?v=5.1.4"></script>-->
+  <script type="text/javascript" src="//cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/motion.min.js"></script>
+
+
+
+  
+  
+
+
+<!--  <script type="text/javascript" src="/js///cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/affix.min.js?v=5.1.4"></script>-->
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/affix.min.js"></script>
+
+<!--  <script type="text/javascript" src="/js///cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/pisces.min.js?v=5.1.4"></script>-->
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/pisces.min.js"></script>
+
+
+
+  
+  <!--<script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>-->
+<!--<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>-->
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/scrollspy.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/post-details.min.js"></script>
+
+
+
+
+  
+
+
+  <!--  <script type="text/javascript" src="/js///cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/bootstrap.min.js?v=5.1.4"></script>-->
+  <script type="text/javascript" src="//cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/bootstrap.min.js"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+<!--  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>-->
+<!--  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>-->
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/js.cookie.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/Tinyuen/blogcdn@0.0.1/js/scroll-cookie.min.js"></script>
+
+
+  
+
+</body>
+</html>
