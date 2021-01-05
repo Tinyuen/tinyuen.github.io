@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://tianxiaohu.online/2018/06/27/front-end/javascript/javascript-this/</loc>
-    <lastmod>2021-01-05</lastmod>
-  </url>  <url>
     <loc>https://tianxiaohu.online/2020/02/21/front-end/css/css-responsive/</loc>
     <lastmod>2021-01-05</lastmod>
   </url>  <url>
@@ -41,6 +38,9 @@
     <lastmod>2021-01-05</lastmod>
   </url>  <url>
     <loc>https://tianxiaohu.online/2019/10/04/front-end/javascript/How-JavaScript-Timer-Work/</loc>
+    <lastmod>2021-01-05</lastmod>
+  </url>  <url>
+    <loc>https://tianxiaohu.online/2018/06/27/front-end/javascript/javascript-this/</loc>
     <lastmod>2021-01-05</lastmod>
   </url>
 </urlset>
