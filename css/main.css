@@ -2162,7 +2162,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #21189f;
+  background: #b4beeb;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3456,12 +3456,16 @@ body .container .footer .footer-inner a {
   line-height: 2;
 }
 .sidebar .post-toc .post-toc-content .nav-item .nav-link {
+  color: #7e7e7e;
   border-bottom: none;
 }
 .sidebar .post-toc .post-toc-content .nav-item.active-current {
   background: #e8e8e8;
   border-radius: 5px;
   font-weight: bold;
+}
+.sidebar .post-toc .post-toc-content .nav-item.active-current .nav-link {
+  color: #333;
 }
 @-webkit-keyframes swing {
   20% {
