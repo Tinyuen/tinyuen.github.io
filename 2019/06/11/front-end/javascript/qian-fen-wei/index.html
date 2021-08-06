@@ -76,7 +76,7 @@
 
 
 
-  <meta name="keywords" content="Nginx," />
+  <meta name="keywords" content="JavaScript," />
 
 
 
@@ -91,16 +91,16 @@
 
 
 
-<meta name="description" content="一般在默认安装 Nginx 的时候，http_ssl_module 模块一般是不会安装的。但是当我们需要在 Nginx 中配置 SSL 的时候，这个模块是必须要安装的。如果配置 SSL 的时候之前没有安装过这个模块，那么不需要重装 Nginx，也是有办法配置这个模块的。接下来就来讲讲怎么在已经安装完的 Nginx 中添加 http_ssl_module 模块。">
+<meta name="description" content="今天聊一个比较有意思的问题，就是在 JavaScript 中为数字添加千分位。这种在一些需要显示金额的地方可能会用到。今天我们来探索几种不同的方法。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何为已经安装好的 Nginx 添加 SSL 模块">
-<meta property="og:url" content="https://tianxiaohu.online/2020/03/21/server-end/nginx/nginx-add-ssl-module/index.html">
+<meta property="og:title" content="Javascript 中实现位数字添加千分位">
+<meta property="og:url" content="https://tianxiaohu.online/2019/06/11/front-end/javascript/qian-fen-wei/index.html">
 <meta property="og:site_name" content="Toy&#39;s Blog">
-<meta property="og:description" content="一般在默认安装 Nginx 的时候，http_ssl_module 模块一般是不会安装的。但是当我们需要在 Nginx 中配置 SSL 的时候，这个模块是必须要安装的。如果配置 SSL 的时候之前没有安装过这个模块，那么不需要重装 Nginx，也是有办法配置这个模块的。接下来就来讲讲怎么在已经安装完的 Nginx 中添加 http_ssl_module 模块。">
-<meta property="article:published_time" content="2020-03-21T20:36:46.000Z">
-<meta property="article:modified_time" content="2021-08-06T17:15:46.949Z">
+<meta property="og:description" content="今天聊一个比较有意思的问题，就是在 JavaScript 中为数字添加千分位。这种在一些需要显示金额的地方可能会用到。今天我们来探索几种不同的方法。">
+<meta property="article:published_time" content="2019-06-11T20:30:00.000Z">
+<meta property="article:modified_time" content="2021-08-06T17:15:46.945Z">
 <meta property="article:author" content="Toy">
-<meta property="article:tag" content="Nginx">
+<meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="https://tianxiaohu.online/2020/03/21/server-end/nginx/nginx-add-ssl-module/"/>
+  <link rel="canonical" href="https://tianxiaohu.online/2019/06/11/front-end/javascript/qian-fen-wei/"/>
 
 
 
 
 
-  <title>如何为已经安装好的 Nginx 添加 SSL 模块 | Toy's Blog</title>
+  <title>Javascript 中实现位数字添加千分位 | Toy's Blog</title>
   
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://tianxiaohu.online/2020/03/21/server-end/nginx/nginx-add-ssl-module/">
+    <link itemprop="mainEntityOfPage" href="https://tianxiaohu.online/2019/06/11/front-end/javascript/qian-fen-wei/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Toy">
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">如何为已经安装好的 Nginx 添加 SSL 模块</h1>
+          <h1 class="post-title" itemprop="name headline">Javascript 中实现位数字添加千分位</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
                 <i class="fa fa-calendar"></i>
               </span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-21T20:36:46+00:00">
-                2020-03-21 20:36
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-11T20:30:00+00:00">
+                2019-06-11 20:30
               </time>
             
 
@@ -336,8 +336,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF/" itemprop="url" rel="index">
-                    <span itemprop="name">服务端</span>
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">web前端</span>
                   </a>
                 </span>
 
@@ -373,49 +373,24 @@
       
 
       
-        <p>一般在默认安装 Nginx 的时候，<code>http_ssl_module</code> 模块一般是不会安装的。但是当我们需要在 Nginx 中配置 SSL 的时候，这个模块是必须要安装的。如果配置 SSL 的时候之前没有安装过这个模块，那么不需要重装 Nginx，也是有办法配置这个模块的。接下来就来讲讲怎么在已经安装完的 Nginx 中添加 <code>http_ssl_module</code> 模块。</p>
+        <p>今天聊一个比较有意思的问题，就是在 JavaScript 中为数字添加千分位。这种在一些需要显示金额的地方可能会用到。今天我们来探索几种不同的方法。</p>
 <a id="more"></a>
 
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>在开始前，你需要确保你已经知道你的 Nginx 的一些配置信息。比如安装目录、安装包所在目录。以下是我自己的路径：</p>
-<ul>
-<li>Nginx 版本：<strong>1.12.0</strong></li>
-<li>Nginx 安装包目录：<strong>/home/gym/data/nginx/nginx-1.12.0</strong></li>
-<li>Nginx 安装路径：<strong>/usr/local/nginx</strong></li>
-</ul>
-<h3 id="检查自己-Nginx-版本以及编译信息"><a href="#检查自己-Nginx-版本以及编译信息" class="headerlink" title="检查自己 Nginx 版本以及编译信息"></a>检查自己 Nginx 版本以及编译信息</h3><p>首先运行如下命令查看自己 Nginx 的编译信息。前边的 <code>/usr/local/nginx</code> 就是你本地 Nginx <strong>安装目录</strong></p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -V</span><br></pre></td></tr></table></figure>
-<p>然后你会得到类似如下的信息：</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nginx version: nginx/1.12.0</span><br><span class="line">built by gcc 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC) </span><br><span class="line">built with OpenSSL 1.0.2k-fips  26 Jan 2017</span><br><span class="line">TLS SNI support enabled</span><br><span class="line">configure arguments: --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module</span><br></pre></td></tr></table></figure>
-<p>以上信息着重注意：<code>--prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module</code> 这个就是我们 Nginx 的编译时候的参数。</p>
-<p>因为我已经安装过了 <code>http_ssl_module</code> 模块，所以 <code>configure arguments</code> 中已经有了。</p>
-<h3 id="进入-Nginx-安装目录"><a href="#进入-Nginx-安装目录" class="headerlink" title="进入 Nginx 安装目录"></a>进入 Nginx 安装目录</h3><p>通过命令进入到自己 Nginx 的安装包的目录，（注意这个目录是你自己机器上的安装目录）</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /home/gym/data/nginx/nginx-1.12.0</span><br></pre></td></tr></table></figure>
+<h1 id="解法一：toLocaleString"><a href="#解法一：toLocaleString" class="headerlink" title="解法一：toLocaleString()"></a>解法一：toLocaleString()</h1><p>我们先看一种比较简单的方法，代码行数最少。numObj.toLocaleString([locales [, options]])</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> num = <span class="number">1234567</span>;</span><br><span class="line"><span class="keyword">const</span> str = num.toLocaleString()</span><br><span class="line"><span class="built_in">console</span>.log(str) <span class="comment">// 1,234,567</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="重新编译-Nginx"><a href="#重新编译-Nginx" class="headerlink" title="重新编译 Nginx"></a>重新编译 Nginx</h3><p>在 Nginx 的安装目录里面，执行如下命令。<code>--prefix</code> 是代表的 Nginx 的安装目录，后面的 <code>--with-</code> 是代表的目前的编译参数。以前的参数要记得复制下来，然后在这个参数基础上增加 ssl 模块需要的参数 <code>--with-http_ssl_module</code> </p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module</span><br></pre></td></tr></table></figure>
+<p>不过需要注意的是，使用前需要先关注下各个浏览器的兼容性情况。</p>
+<h2 id="解法二：正则"><a href="#解法二：正则" class="headerlink" title="解法二：正则"></a>解法二：正则</h2><p>正则是我个人比较喜欢的一种方式，代码量少并且执行效率较高。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> num = <span class="string">'10000000000'</span>;</span><br><span class="line"><span class="keyword">const</span> result = num.replace(<span class="regexp">/\d&#123;1,3&#125;(?=(\d&#123;3&#125;)+$)/g</span>, <span class="string">'$&amp;,'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(result); <span class="comment">// 10,000,000,000</span></span><br></pre></td></tr></table></figure>
+<p>不过上面的这种正则不支持数字里面带小数点。如果带有小数点的可能需要额外处理下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> num = <span class="string">'12345678.01'</span>;</span><br><span class="line"><span class="keyword">const</span> [left, right] = num.split(<span class="string">'.'</span>);</span><br><span class="line"><span class="keyword">const</span> result = <span class="string">`<span class="subst">$&#123;left.replace(<span class="regexp">/\d&#123;1,3&#125;(?=(\d&#123;3&#125;)+$)/g</span>, <span class="string">'$&amp;,'</span>)&#125;</span>.<span class="subst">$&#123;right&#125;</span>`</span>;</span><br><span class="line"><span class="built_in">console</span>.log(result); <span class="comment">// 12,345,678.01</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="make-编译"><a href="#make-编译" class="headerlink" title="make 编译"></a>make 编译</h3><p>执行 make 命令编译 Nginx，make 完之后在 objs 目录下就多了个 nginx。这个就是我们新的 Nginx 程序。</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<h2 id="解法三：for-循环"><a href="#解法三：for-循环" class="headerlink" title="解法三：for 循环"></a>解法三：for 循环</h2><p>通过循环的方式，自然是最符合程序猿思维的方式了。不过相比较上面的两种方式代码量就比较多了。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">format</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> numStr = <span class="string">`<span class="subst">$&#123;num&#125;</span>`</span>;</span><br><span class="line">  <span class="keyword">let</span> str = <span class="string">''</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = numStr.length - <span class="number">1</span>, j = <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--, j++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(j%<span class="number">3</span> === <span class="number">0</span> &amp;&amp; i !== <span class="number">0</span>)&#123;</span><br><span class="line">      str += <span class="string">`<span class="subst">$&#123;numStr[i]&#125;</span>,`</span>;</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    str += numStr[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> str.split(<span class="string">''</span>).reverse().join(<span class="string">''</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="备份原-Nginx，用刚生成的覆盖老的"><a href="#备份原-Nginx，用刚生成的覆盖老的" class="headerlink" title="备份原 Nginx，用刚生成的覆盖老的"></a>备份原 Nginx，用刚生成的覆盖老的</h3><blockquote>
-<p>注： 虽然这里的备份不是必须的，但是强烈建议备份。这是个好习惯。</p>
-</blockquote>
-<p>复制原来的 Nginx 作为备份。</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.bak</span><br></pre></td></tr></table></figure>
-<p>用上个步骤生成的新的 Nginx 程序覆盖老的。<strong>覆盖之前请先停掉你的 Nginx 服务</strong>。</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp objs/nginx /usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
+<h2 id="解法四：reduce-版本"><a href="#解法四：reduce-版本" class="headerlink" title="解法四：reduce 版本"></a>解法四：reduce 版本</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">format</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> numStr = <span class="string">`<span class="subst">$&#123;num&#125;</span>`</span>;</span><br><span class="line">  <span class="keyword">return</span> numStr.split(<span class="string">''</span>).reverse().reduce(<span class="function">(<span class="params">prev, next, index</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> ((index % <span class="number">3</span>) ? next : <span class="string">`<span class="subst">$&#123;next&#125;</span>,`</span>) + prev;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="验证配置是否正常"><a href="#验证配置是否正常" class="headerlink" title="验证配置是否正常"></a>验证配置是否正常</h3><p>操作完上面的步骤，我们的 Nginx 就已经重新编译好了，并且增加了 <code>http_ssl_module</code> 模块。不过还是要验证下配置是否正常。如下：</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -t</span><br></pre></td></tr></table></figure>
-<p>如果返回的是如下信息，那么恭喜你，说明一切正常：</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx: the configuration file /usr/local/nginx/conf/nginx.conf syntax is ok</span><br><span class="line">nginx: configuration file /usr/local/nginx/conf/nginx.conf test is successful</span><br></pre></td></tr></table></figure>
-
-<h3 id="重启你的-Nginx"><a href="#重启你的-Nginx" class="headerlink" title="重启你的 Nginx"></a>重启你的 Nginx</h3><p>重新启动你的 Nginx，检查配置的 <code>http_ssl_module</code> 是否已经生效。</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/nginx/sbin</span><br><span class="line">./nginx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 Nginx 信息</span></span><br><span class="line">/usr/local/nginx/sbin/nginx -V</span><br></pre></td></tr></table></figure>
-<p>如果你看到编译参数里面已经增加了 <code>http_ssl_module</code> 模块，那就搞定了。</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nginx version: nginx/1.12.0</span><br><span class="line">built by gcc 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC) </span><br><span class="line">built with OpenSSL 1.0.2k-fips  26 Jan 2017</span><br><span class="line">TLS SNI support enabled</span><br><span class="line">configure arguments: --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module</span><br></pre></td></tr></table></figure>
-
-<p>以上，搞定！ 如果帮到你，老板！右下角赏一个？😝</p>
+<p>哈哈  just for fun!</p>
 
       
     </div>
@@ -427,7 +402,7 @@
     <div class="post-tags clearfix">
       <div class="post-tags-wrap">
         
-        <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+        <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
         
       </div>
       <div class="post-reward-wrap">
@@ -520,7 +495,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://tianxiaohu.online/2020/03/21/server-end/nginx/nginx-add-ssl-module/" title="如何为已经安装好的 Nginx 添加 SSL 模块">https://tianxiaohu.online/2020/03/21/server-end/nginx/nginx-add-ssl-module/</a>
+    <a href="https://tianxiaohu.online/2019/06/11/front-end/javascript/qian-fen-wei/" title="Javascript 中实现位数字添加千分位">https://tianxiaohu.online/2019/06/11/front-end/javascript/qian-fen-wei/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -535,7 +510,7 @@
       <!---->
         <!--<div class="post-tags">-->
           <!---->
-            <!--<a href="/tags/Nginx/" rel="tag"># Nginx</a>-->
+            <!--<a href="/tags/JavaScript/" rel="tag"># JavaScript</a>-->
           <!---->
         <!--</div>-->
       <!---->
@@ -548,8 +523,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/19/server-end/nginx/nginx-https/" rel="next" title="Nginx + SSL 配置实现 https 访问">
-                <i class="fa fa-chevron-left"></i> Nginx + SSL 配置实现 https 访问
+              <a href="/2018/06/27/front-end/javascript/javascript-this/" rel="next" title="JavaScript 中 this 的绑定规则">
+                <i class="fa fa-chevron-left"></i> JavaScript 中 this 的绑定规则
               </a>
             
           </div>
@@ -558,8 +533,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/05/front-end/javascript/image-preview/" rel="prev" title="URL.createObjectURL 实现本地图片预览">
-                URL.createObjectURL 实现本地图片预览 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/04/front-end/javascript/How-JavaScript-Timer-Work/" rel="prev" title="javascript 定时器是如何工作的">
+                javascript 定时器是如何工作的 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -738,7 +713,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查自己-Nginx-版本以及编译信息"><span class="nav-text">检查自己 Nginx 版本以及编译信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入-Nginx-安装目录"><span class="nav-text">进入 Nginx 安装目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新编译-Nginx"><span class="nav-text">重新编译 Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#make-编译"><span class="nav-text">make 编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备份原-Nginx，用刚生成的覆盖老的"><span class="nav-text">备份原 Nginx，用刚生成的覆盖老的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证配置是否正常"><span class="nav-text">验证配置是否正常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重启你的-Nginx"><span class="nav-text">重启你的 Nginx</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#解法一：toLocaleString"><span class="nav-text">解法一：toLocaleString()</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#解法二：正则"><span class="nav-text">解法二：正则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解法三：for-循环"><span class="nav-text">解法三：for 循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解法四：reduce-版本"><span class="nav-text">解法四：reduce 版本</span></a></li></ol></li></ol></div>
             
 
           </div>
