@@ -1699,23 +1699,14 @@
 
       
         
-          
-            <p>在开始之前，我们先看下 Promise.all() 方法的定义。<br>Promise.all() 方法接收一个 <code>promise</code> 的 <code>iterable</code> 类型（注：Array，Map，Set都属于ES6的iterable类型）的输入，并且只返回一个Promise实例，<br>那个输入的所有promise的resolve回调的结果是一个数组。这个 Promise 的 resolve 回调执行是在所有输入的promise的resolve回调都结束，<br>或者输入的iterable里没有promise了的时候。它的reject回调执行是，只要任何一个输入的promise的reject回调执行或者输入不合法的promise就会立即抛出错误，并且reject的是第一个抛出的错误信息。</p>
-<h2 id="Promise-all-的使用"><a href="#Promise-all-的使用" class="headerlink" title="Promise.all 的使用"></a>Promise.all 的使用</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> promise1 = <span class="built_in">Promise</span>.resolve(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="built_in">Promise</span>.resolve(<span class="number">2</span>);</span><br><span class="line"><span class="keyword">let</span> promise3 = <span class="built_in">Promise</span>.resolve(<span class="number">3</span>);</span><br><span class="line"><span class="built_in">Promise</span>.all([promise1, promise2, promise3])</span><br><span class="line">  .then(<span class="function"><span class="params">value</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(value); <span class="comment">// [1, 2, 3]  </span></span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
-
-<h2 id="模拟实现一个-Promise-all"><a href="#模拟实现一个-Promise-all" class="headerlink" title="模拟实现一个 Promise.all"></a>模拟实现一个 Promise.all</h2><p>从 Promise.all 的定义我们可以知道，Promise.all 具有这样的特点：</p>
-<ul>
-<li>接收一个 Promise 实例的数组或具有 Iterator 接口的对象，</li>
-<li>如果元素不是 Promise 对象，则使用 Promise.resolve 转成 Promise 对象</li>
-<li>如果全部成功，状态变为 resolved，返回值将组成一个数组传给回调</li>
-<li>只要有一个失败，状态就变为 rejected，返回值将直接传递给回调 all() 的返回值也是新的 Promise 对象</li>
-</ul>
-<p>那么我们尝试来实现下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">promiseAll</span> (<span class="params">promises</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">(resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">Array</span>.isArray(promises)) &#123;</span><br><span class="line">      <span class="keyword">return</span> reject(<span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'argument must be an array'</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> promiseLen = promises.length;</span><br><span class="line">    <span class="comment">// 用来接收结果的数组</span></span><br><span class="line">    <span class="keyword">let</span> resolveValues = [];</span><br><span class="line">    <span class="comment">// 定一个变量记录resolve的promise的数量</span></span><br><span class="line">    <span class="keyword">let</span> counter = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; promiseLen; i++) &#123;</span><br><span class="line">      <span class="built_in">Promise</span>.resolve(promises[i])</span><br><span class="line">        .then(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">          counter++;</span><br><span class="line">          resolveValues[i] = data;</span><br><span class="line">          <span class="comment">// 当所有promise resolve后，整个promise resolve</span></span><br><span class="line">          <span class="keyword">if</span> (counter === promiseLen) &#123;</span><br><span class="line">            resolve(resolveValues);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">          reject(err);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上就是一个较为简单的模拟 Promise.all 的方法。欢迎大家讨论。</p>
-
-          
+          <p>在开始之前，我们先看下 Promise.all() 方法的定义。<br>Promise.all() 方法接收一个 <code>promise</code> 的 <code>iterable</code> 类型（注：Array，Map，Set都属于ES6的iterable类型）的输入，并且只返回一个Promise实例，<br>那个输入的所有promise的resolve回调的结果是一个数组。这个 Promise 的 resolve 回调执行是在所有输入的promise的resolve回调都结束，<br>或者输入的iterable里没有promise了的时候。它的reject回调执行是，只要任何一个输入的promise的reject回调执行或者输入不合法的promise就会立即抛出错误，并且reject的是第一个抛出的错误信息。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/17/front-end/javascript/promise-all/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
