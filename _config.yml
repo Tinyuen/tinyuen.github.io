@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Toy's Blog
+title: Tinyuen's Blog
 subtitle:
 description: '田小虎的前端技术博客，有JavaScript、HTML、CSS、Vue、React、Node、React Hooks、Vuex、Redux、webPack、git 等技术领域知识'
-keywords: 前端,博客
-author: Toy
+keywords: 前端,博客,Javascript,html,css,react,vue,node
+author: Tinyuen
 language: zh-Hans
 timezone: ''
 
